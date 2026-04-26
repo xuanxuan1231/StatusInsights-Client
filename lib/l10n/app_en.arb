@@ -1,0 +1,196 @@
+{
+  "@@locale": "en",
+  "appTitle": "StatusInsights Client",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  "serverAddress": "Server Address",
+  "@serverAddress": {
+    "description": "Label for server address input"
+  },
+  "serverAddressHint": "https://your-server.example.com",
+  "@serverAddressHint": {
+    "description": "Hint text for server address input"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button label"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+  "deviceInfo": "Device Info",
+  "@deviceInfo": {
+    "description": "Section title for device info"
+  },
+  "deviceGuid": "Device GUID",
+  "@deviceGuid": {
+    "description": "Label for device GUID"
+  },
+  "deviceName": "Device Name",
+  "@deviceName": {
+    "description": "Label for device name"
+  },
+  "deviceType": "Device Type",
+  "@deviceType": {
+    "description": "Label for device type"
+  },
+  "deviceStatus": "Device Status",
+  "@deviceStatus": {
+    "description": "Section title for device status"
+  },
+  "notRegistered": "Not Registered",
+  "@notRegistered": {
+    "description": "Status when device is not registered"
+  },
+  "registered": "Registered",
+  "@registered": {
+    "description": "Status when device is registered"
+  },
+  "registerDevice": "Register Device",
+  "@registerDevice": {
+    "description": "Register device button label"
+  },
+  "unregisterDevice": "Unregister Device",
+  "@unregisterDevice": {
+    "description": "Unregister device button label"
+  },
+  "autoReporting": "Auto Reporting",
+  "@autoReporting": {
+    "description": "Section title for auto reporting"
+  },
+  "autoReportingOn": "Auto reporting is active",
+  "@autoReportingOn": {
+    "description": "Status when auto reporting is on"
+  },
+  "autoReportingOff": "Auto reporting is stopped",
+  "@autoReportingOff": {
+    "description": "Status when auto reporting is off"
+  },
+  "startReporting": "Start Reporting",
+  "@startReporting": {
+    "description": "Start reporting button label"
+  },
+  "stopReporting": "Stop Reporting",
+  "@stopReporting": {
+    "description": "Stop reporting button label"
+  },
+  "currentWindowTitle": "Current Window",
+  "@currentWindowTitle": {
+    "description": "Label for current window title"
+  },
+  "noneDetected": "None detected",
+  "@noneDetected": {
+    "description": "Text shown when no window title detected"
+  },
+  "customStatus": "Custom Status",
+  "@customStatus": {
+    "description": "Section title for custom status"
+  },
+  "personStatus": "Personal Status",
+  "@personStatus": {
+    "description": "Label for person status input"
+  },
+  "personStatusHint": "e.g. Working, In a meeting, On break...",
+  "@personStatusHint": {
+    "description": "Hint text for person status input"
+  },
+  "submitStatus": "Submit Status",
+  "@submitStatus": {
+    "description": "Button to submit custom status"
+  },
+  "lastReported": "Last reported",
+  "@lastReported": {
+    "description": "Label for last reported time"
+  },
+  "never": "Never",
+  "@never": {
+    "description": "Text for never"
+  },
+  "errorServerNotSet": "Server address is not configured",
+  "@errorServerNotSet": {
+    "description": "Error when server is not configured"
+  },
+  "errorNotRegistered": "Device is not registered",
+  "@errorNotRegistered": {
+    "description": "Error when device is not registered"
+  },
+  "successRegistered": "Device registered successfully",
+  "@successRegistered": {
+    "description": "Success message for registration"
+  },
+  "successUnregistered": "Device unregistered successfully",
+  "@successUnregistered": {
+    "description": "Success message for unregistration"
+  },
+  "successStatusSubmitted": "Status submitted successfully",
+  "@successStatusSubmitted": {
+    "description": "Success message for status submission"
+  },
+  "errorFailed": "Operation failed: {message}",
+  "@errorFailed": {
+    "description": "Generic error message",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "copied": "Copied to clipboard",
+  "@copied": {
+    "description": "Message when text is copied to clipboard"
+  },
+  "serverSettings": "Server Settings",
+  "@serverSettings": {
+    "description": "Title for server settings section"
+  },
+  "aboutApp": "About",
+  "@aboutApp": {
+    "description": "About menu item"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+  "reportingInterval": "Reporting interval: every 20 seconds",
+  "@reportingInterval": {
+    "description": "Info about reporting interval"
+  },
+  "noWindowTitle": "No window detected",
+  "@noWindowTitle": {
+    "description": "Text when no window title available"
+  },
+  "tapToCopy": "Tap to copy",
+  "@tapToCopy": {
+    "description": "Hint to tap to copy"
+  },
+  "serverAddressUpdated": "Server address updated",
+  "@serverAddressUpdated": {
+    "description": "Message when server address is updated"
+  },
+  "confirmUnregister": "Confirm Unregister",
+  "@confirmUnregister": {
+    "description": "Title for unregister confirmation dialog"
+  },
+  "confirmUnregisterMessage": "Are you sure you want to unregister this device? You can register again later.",
+  "@confirmUnregisterMessage": {
+    "description": "Message for unregister confirmation dialog"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button label"
+  },
+  "statusHistory": "Status History",
+  "@statusHistory": {
+    "description": "Status history section title"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language settings label"
+  }
+}

@@ -1,0 +1,46 @@
+name: statusinsights_client
+description: StatusInsights Client - 自动状态上报客户端 (Auto status reporting client)
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # HTTP client
+  http: ^1.2.2
+
+  # Local storage
+  shared_preferences: ^2.3.4
+
+  # UUID generation
+  uuid: ^4.5.1
+
+  # State management
+  provider: ^6.1.2
+
+  # Internationalization
+  intl: ^0.20.2
+
+  # App info
+  package_info_plus: ^8.3.0
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+
