@@ -1,0 +1,1 @@
+WARNING_CFLAGS = -Wall -Wconditional-uninitialized -Wnewline-eof -Wfloat-conversion -Wno-sign-conversion -Wno-semicolon-before-method-body -Wno-objc-designated-initializers

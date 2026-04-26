@@ -1,0 +1,8 @@
+# Flutter-managed generated files.
+# These paths should always be relative to the pubspec.yaml file, hence no
+# "include" prefix.
+
+# Intermediary generated files.
+generated_plugin_registrant.cc
+generated_plugin_registrant.h
+generated_plugins.cmake

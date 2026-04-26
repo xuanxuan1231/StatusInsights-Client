@@ -1,0 +1,11 @@
+# Flutter-managed generated files.
+# These paths should always be relative to the pubspec.yaml file, hence no
+# "include" prefix.
+
+# Ephemeral directory that holds Xcode configuration files.
+Flutter/ephemeral/
+
+# Xcode-related
+**/DerivedData/
+**/build/
+**/Pods/
