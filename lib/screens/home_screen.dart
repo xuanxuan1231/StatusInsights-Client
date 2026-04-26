@@ -390,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: isRegistered ? Colors.green.withOpacity(0.15) : colorScheme.errorContainer,
+        color: isRegistered ? Colors.green.withValues(alpha: 0.15) : colorScheme.errorContainer,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -444,12 +444,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               l10n.reportingInterval,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.withOpacity(0.6),
-                  ),
-            ),
-            const SizedBox(height: 12),
-
-            // Current window title
+                    color: colorScheme.onSurface.withValues(alpha: 0.6),
             if (appState.currentWindowTitle != null) ...[
               Container(
                 padding: const EdgeInsets.all(10),
@@ -484,12 +479,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   '${l10n.lastReported}: ${_formatDateTime(appState.lastReportedAt!)}',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                ),
-              ),
-
-            // Status indicator
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
             Row(
               children: [
                 AnimatedContainer(
@@ -636,7 +626,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _formatTime(report.timestamp),
                           style: TextStyle(
                             fontSize: 11,
-                            color: colorScheme.onSurface.withOpacity(0.5),
+                            color: colorScheme.onSurface.withValues(alpha: 0.5),
                             fontFamily: 'monospace',
                           ),
                         ),
