@@ -122,10 +122,14 @@ foreach(bundled_library ${PLUGIN_BUNDLED_LIBRARIES})
 endforeach(bundled_library)
 
 # Copy the native assets provided by the build.dart from all packages.
+# The native_assets directory is only created when packages have native assets,
+# so guard the install to avoid an error when it does not exist.
 set(NATIVE_ASSETS_DIR "${PROJECT_BUILD_DIR}native_assets/linux/")
-install(DIRECTORY "${NATIVE_ASSETS_DIR}"
-   DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
-   COMPONENT Runtime)
+install(CODE "
+  if(EXISTS \"${NATIVE_ASSETS_DIR}\")
+    file(INSTALL \"${NATIVE_ASSETS_DIR}\" DESTINATION \"${INSTALL_BUNDLE_LIB_DIR}\")
+  endif()
+" COMPONENT Runtime)
 
 # Fully re-copy the assets directory on each build to avoid having stale files
 # from a previous install.
