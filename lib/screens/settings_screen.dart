@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         'e.g. https://statusinsights.example.com',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.5),
+                          color: colorScheme.onSurface.withOpacity(0.5),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -148,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         subtitle: Text(
                           l10n.tapToCopy,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withValues(alpha: 0.5),
+                            color: colorScheme.onSurface.withOpacity(0.5),
                           ),
                         ),
                         onTap: () => _copyGuid(context, appState.guid, l10n),
@@ -251,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     label,
                     style: TextStyle(
                       fontSize: 12,
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: colorScheme.onSurface.withOpacity(0.6),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -274,7 +274,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Icon(
                 Icons.copy_outlined,
                 size: 16,
-                color: colorScheme.onSurface.withValues(alpha: 0.4),
+                color: colorScheme.onSurface.withOpacity(0.4),
               ),
           ],
         ),

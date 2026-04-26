@@ -75,7 +75,8 @@ static gboolean my_application_local_command_line(GApplication* application,
 
 // Implements GApplication::startup.
 static void my_application_startup(GApplication* application) {
-  //  G_APPLICATION_CLASS(my_application_parent_class)->startup(application);
+  // Note: The parent class startup is intentionally not called here.
+  // Flutter's Linux embedding handles application lifecycle via activate.
 }
 
 // Implements GObject::dispose.
