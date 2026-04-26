@@ -96,6 +96,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         'e.g. https://statusinsights.example.com',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurface.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerRight,
                         child: FilledButton.icon(
                           onPressed: _hasChanges ? () => _saveSettings(context, l10n) : null,
                           icon: const Icon(Icons.save_outlined),
@@ -144,6 +149,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           l10n.tapToCopy,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurface.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        onTap: () => _copyGuid(context, appState.guid, l10n),
                       ),
                     ],
                   ),

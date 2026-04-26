@@ -445,6 +445,9 @@ class _HomeScreenState extends State<HomeScreen> {
               l10n.reportingInterval,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+            ),
+            const SizedBox(height: 12),
             if (appState.currentWindowTitle != null) ...[
               Container(
                 padding: const EdgeInsets.all(10),
@@ -480,6 +483,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   '${l10n.lastReported}: ${_formatDateTime(appState.lastReportedAt!)}',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
+                ),
+              ),
             Row(
               children: [
                 AnimatedContainer(
