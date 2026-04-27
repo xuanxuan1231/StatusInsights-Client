@@ -4,16 +4,6 @@ set(BINARY_NAME "statusinsights_client")
 
 cmake_policy(VERSION 3.14...3.25)
 
-set(FLUTTER_MANAGED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../flutter")
-
-# Flutter library and tool build rules.
-add_subdirectory(${FLUTTER_MANAGED_DIR} flutter)
-
-set(FLUTTER_LIBRARY "${FLUTTER_MANAGED_DIR}/ephemeral/flutter_windows.dll")
-
-# System-level dependencies.
-find_package(PkgConfig REQUIRED)
-
 add_executable(${BINARY_NAME} WIN32
   "flutter_window.cpp"
   "main.cpp"
