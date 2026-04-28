@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'l10n/app_localizations.dart';
 import 'home_page.dart';
+import 'main.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -13,6 +14,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('zh');
 
+  @override
+  void initState() {
+    super.initState();
+    _loadLocale();
+  }
+
+  Future<void> _loadLocale() async {
+    final savedLanguageCode = preferencesService.getLanguageCode();
+    if (savedLanguageCode != null) {
+      setState(() {
+        _locale = Locale(savedLanguageCode);
+      });
+    }
+  }
+
   void _setLocale(Locale locale) {
     if (_locale.languageCode == locale.languageCode) {
       return;
@@ -21,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _locale = locale;
     });
+    preferencesService.setLanguageCode(locale.languageCode);
   }
 
   @override

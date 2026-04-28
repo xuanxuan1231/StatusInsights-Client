@@ -30,6 +30,28 @@
   "settingsSecondsUnit": "s",
   "languageChinese": "Chinese",
   "languageEnglish": "English",
+  "deviceName": "My Device",
+  "deviceNameLabel": "Device Name",
+  "deviceNameHelper": "Give this device a memorable name.",
+  "deviceDescription": "For monitoring app and system status.",
+  "deviceDescriptionLabel": "Device Description",
+  "deviceDescriptionHelper": "Brief description of this device's purpose.",
+  "deviceTypeDesktop": "Desktop",
+  "deviceTypeMobile": "Mobile",
+  "deviceTypeUnknown": "Unknown",
+  "devicesTitle": "Devices",
+  "statusLoading": "Loading status...",
+  "statusFetchFailed": "Failed to fetch status",
+  "statusNoData": "No status data available",
+  "statusTitle": "{name}'s status",
+  "@statusTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "editDeviceInfo": "Edit Device Info",
   "aboutTitle": "About",
-  "aboutDescription": "StatusInsights version 1.0.0. Built with Flutter."
+  "aboutDescription": "StatusInsights version 1.0.0. Built with Flutter.",
+  "aboutNoteProject": "This project is for status insights and information display.",
+  "aboutNoteFuture": "More settings and feature modules will be added continuously."
 }

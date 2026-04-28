@@ -30,6 +30,28 @@
   "settingsSecondsUnit": "秒",
   "languageChinese": "中文",
   "languageEnglish": "英文",
+  "deviceName": "我的设备",
+  "deviceNameLabel": "设备名称",
+  "deviceNameHelper": "为此设备起一个易记的名称。",
+  "deviceDescription": "用于监控应用和系统状态。",
+  "deviceDescriptionLabel": "设备描述",
+  "deviceDescriptionHelper": "简短描述此设备的用途。",
+  "deviceTypeDesktop": "桌面",
+  "deviceTypeMobile": "移动",
+  "deviceTypeUnknown": "未知",
+  "devicesTitle": "设备",
+  "statusLoading": "正在加载状态...",
+  "statusFetchFailed": "获取状态失败",
+  "statusNoData": "暂无状态数据",
+  "statusTitle": "{name} 的状态",
+  "@statusTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "editDeviceInfo": "编辑设备信息",
   "aboutTitle": "关于",
-  "aboutDescription": "StatusInsights 版本 1.0.0，基于 Flutter 构建。"
+  "aboutDescription": "StatusInsights 版本 1.0.0，基于 Flutter 构建。",
+  "aboutNoteProject": "本项目用于状态洞察与信息展示。",
+  "aboutNoteFuture": "后续将持续补充更多设置项与功能模块。"
 }

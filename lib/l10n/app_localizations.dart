@@ -278,6 +278,96 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageEnglish;
 
+  /// No description provided for @deviceName.
+  ///
+  /// In en, this message translates to:
+  /// **'My Device'**
+  String get deviceName;
+
+  /// No description provided for @deviceNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Name'**
+  String get deviceNameLabel;
+
+  /// No description provided for @deviceNameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Give this device a memorable name.'**
+  String get deviceNameHelper;
+
+  /// No description provided for @deviceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'For monitoring app and system status.'**
+  String get deviceDescription;
+
+  /// No description provided for @deviceDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Description'**
+  String get deviceDescriptionLabel;
+
+  /// No description provided for @deviceDescriptionHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Brief description of this device\'s purpose.'**
+  String get deviceDescriptionHelper;
+
+  /// No description provided for @deviceTypeDesktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop'**
+  String get deviceTypeDesktop;
+
+  /// No description provided for @deviceTypeMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile'**
+  String get deviceTypeMobile;
+
+  /// No description provided for @deviceTypeUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get deviceTypeUnknown;
+
+  /// No description provided for @devicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get devicesTitle;
+
+  /// No description provided for @statusLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading status...'**
+  String get statusLoading;
+
+  /// No description provided for @statusFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch status'**
+  String get statusFetchFailed;
+
+  /// No description provided for @statusNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No status data available'**
+  String get statusNoData;
+
+  /// No description provided for @statusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s status'**
+  String statusTitle(Object name);
+
+  /// No description provided for @editDeviceInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Device Info'**
+  String get editDeviceInfo;
+
   /// No description provided for @aboutTitle.
   ///
   /// In en, this message translates to:
@@ -289,6 +379,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'StatusInsights version 1.0.0. Built with Flutter.'**
   String get aboutDescription;
+
+  /// No description provided for @aboutNoteProject.
+  ///
+  /// In en, this message translates to:
+  /// **'This project is for status insights and information display.'**
+  String get aboutNoteProject;
+
+  /// No description provided for @aboutNoteFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'More settings and feature modules will be added continuously.'**
+  String get aboutNoteFuture;
 }
 
 class _AppLocalizationsDelegate

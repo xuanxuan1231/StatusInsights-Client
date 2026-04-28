@@ -100,8 +100,61 @@ class AppLocalizationsZh extends AppLocalizations {
   String get languageEnglish => '英文';
 
   @override
+  String get deviceName => '我的设备';
+
+  @override
+  String get deviceNameLabel => '设备名称';
+
+  @override
+  String get deviceNameHelper => '为此设备起一个易记的名称。';
+
+  @override
+  String get deviceDescription => '用于监控应用和系统状态。';
+
+  @override
+  String get deviceDescriptionLabel => '设备描述';
+
+  @override
+  String get deviceDescriptionHelper => '简短描述此设备的用途。';
+
+  @override
+  String get deviceTypeDesktop => '桌面';
+
+  @override
+  String get deviceTypeMobile => '移动';
+
+  @override
+  String get deviceTypeUnknown => '未知';
+
+  @override
+  String get devicesTitle => '设备';
+
+  @override
+  String get statusLoading => '正在加载状态...';
+
+  @override
+  String get statusFetchFailed => '获取状态失败';
+
+  @override
+  String get statusNoData => '暂无状态数据';
+
+  @override
+  String statusTitle(Object name) {
+    return '$name 的状态';
+  }
+
+  @override
+  String get editDeviceInfo => '编辑设备信息';
+
+  @override
   String get aboutTitle => '关于';
 
   @override
   String get aboutDescription => 'StatusInsights 版本 1.0.0，基于 Flutter 构建。';
+
+  @override
+  String get aboutNoteProject => '本项目用于状态洞察与信息展示。';
+
+  @override
+  String get aboutNoteFuture => '后续将持续补充更多设置项与功能模块。';
 }

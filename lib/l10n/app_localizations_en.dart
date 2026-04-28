@@ -106,9 +106,65 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
+  String get deviceName => 'My Device';
+
+  @override
+  String get deviceNameLabel => 'Device Name';
+
+  @override
+  String get deviceNameHelper => 'Give this device a memorable name.';
+
+  @override
+  String get deviceDescription => 'For monitoring app and system status.';
+
+  @override
+  String get deviceDescriptionLabel => 'Device Description';
+
+  @override
+  String get deviceDescriptionHelper =>
+      'Brief description of this device\'s purpose.';
+
+  @override
+  String get deviceTypeDesktop => 'Desktop';
+
+  @override
+  String get deviceTypeMobile => 'Mobile';
+
+  @override
+  String get deviceTypeUnknown => 'Unknown';
+
+  @override
+  String get devicesTitle => 'Devices';
+
+  @override
+  String get statusLoading => 'Loading status...';
+
+  @override
+  String get statusFetchFailed => 'Failed to fetch status';
+
+  @override
+  String get statusNoData => 'No status data available';
+
+  @override
+  String statusTitle(Object name) {
+    return '$name\'s status';
+  }
+
+  @override
+  String get editDeviceInfo => 'Edit Device Info';
+
+  @override
   String get aboutTitle => 'About';
 
   @override
   String get aboutDescription =>
       'StatusInsights version 1.0.0. Built with Flutter.';
+
+  @override
+  String get aboutNoteProject =>
+      'This project is for status insights and information display.';
+
+  @override
+  String get aboutNoteFuture =>
+      'More settings and feature modules will be added continuously.';
 }
