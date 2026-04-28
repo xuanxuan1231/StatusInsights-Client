@@ -5,13 +5,17 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:statusinsights/app.dart';
+import 'package:statusinsights/main.dart';
 
 void main() {
   testWidgets('Home page shows overview title', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+    await preferencesService.init();
+
     // Build the app and wait for localization/widgets to settle.
     await tester.pumpWidget(MyApp());
     await tester.pumpAndSettle();
