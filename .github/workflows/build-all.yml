@@ -49,6 +49,26 @@ jobs:
       
       - name: Generate l10n
         run: flutter gen-l10n
+
+      - name: Validate Android signing secrets
+        run: |
+          if [ -z "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEY_ALIAS }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEY_PASSWORD }}" ]; then
+            echo "Missing Android signing secrets."
+            exit 1
+          fi
+
+      - name: Prepare Android signing files
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/my-release-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=my-release-keystore.jks
+          EOF
       
       - name: Build APK
         run: flutter build apk --release
@@ -128,5 +148,3 @@ jobs:
         with:
           name: windows-build-${{ github.run_number }}
           path: build/windows/x64/runner/Release/
-
-

@@ -97,9 +97,19 @@ class MainActivity : FlutterActivity() {
             val appInfo = packageManager.getApplicationInfo(packageName, 0)
             packageManager.getApplicationLabel(appInfo).toString().ifBlank { packageName }
         } catch (_: PackageManager.NameNotFoundException) {
-            packageName
+            resolveLauncherLabel(packageName) ?: packageName
         } catch (_: Exception) {
-            packageName
+            resolveLauncherLabel(packageName) ?: packageName
+        }
+    }
+
+    private fun resolveLauncherLabel(packageName: String): String? {
+        return try {
+            val launchIntent = packageManager.getLaunchIntentForPackage(packageName) ?: return null
+            val resolveInfo = packageManager.resolveActivity(launchIntent, 0) ?: return null
+            resolveInfo.loadLabel(packageManager)?.toString()
+        } catch (_: Exception) {
+            null
         }
     }
 }
