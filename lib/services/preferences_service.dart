@@ -10,6 +10,7 @@ class PreferencesService {
   static const String _keyWindowTitleBackend = 'window_title_backend';
   static const String _keyWindowTitleCommand = 'window_title_command';
   static const String _keyLanguageCode = 'language_code';
+  static const String _keyThemeMode = 'theme_mode';
 
   late final SharedPreferences _prefs;
 
@@ -98,5 +99,14 @@ class PreferencesService {
 
   String? getLanguageCode() {
     return _prefs.getString(_keyLanguageCode);
+  }
+
+  // Theme Mode
+  Future<bool> setThemeMode(String value) async {
+    return _prefs.setString(_keyThemeMode, value);
+  }
+
+  String? getThemeMode() {
+    return _prefs.getString(_keyThemeMode);
   }
 }

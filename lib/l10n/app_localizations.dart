@@ -266,6 +266,42 @@ abstract class AppLocalizations {
   /// **'Choose the app display language.'**
   String get settingsLanguageHelper;
 
+  /// No description provided for @settingsThemeModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Mode'**
+  String get settingsThemeModeLabel;
+
+  /// No description provided for @settingsThemeModeHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system automatically, or switch to light/dark manually.'**
+  String get settingsThemeModeHelper;
+
+  /// No description provided for @settingsEditThemeModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Theme Mode'**
+  String get settingsEditThemeModeTitle;
+
+  /// No description provided for @settingsThemeModeSystemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get settingsThemeModeSystemLabel;
+
+  /// No description provided for @settingsThemeModeLightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeModeLightLabel;
+
+  /// No description provided for @settingsThemeModeDarkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeModeDarkLabel;
+
   /// No description provided for @settingsServiceSection.
   ///
   /// In en, this message translates to:

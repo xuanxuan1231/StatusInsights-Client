@@ -1,5 +1,7 @@
 #include "my_application.h"
 
+#include <cstring>
+
 #include <flutter_linux/flutter_linux.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -10,9 +12,63 @@
 struct _MyApplication {
   GtkApplication parent_instance;
   char** dart_entrypoint_arguments;
+  FlMethodChannel* theme_channel;
 };
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
+
+static void apply_gtk_theme_mode(const gchar* mode) {
+  GtkSettings* settings = gtk_settings_get_default();
+  if (settings == nullptr || mode == nullptr) {
+    return;
+  }
+  gboolean prefer_dark = g_strcmp0(mode, "dark") == 0;
+  g_object_set(settings, "gtk-application-prefer-dark-theme", prefer_dark,
+               nullptr);
+}
+
+static FlMethodResponse* theme_method_call(MyApplication* self,
+                                           FlMethodCall* method_call) {
+  const gchar* method = fl_method_call_get_name(method_call);
+
+  if (strcmp(method, "setGtkThemeMode") != 0) {
+    return FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
+  }
+
+  FlValue* args = fl_method_call_get_args(method_call);
+  if (args == nullptr || fl_value_get_type(args) != FL_VALUE_TYPE_MAP) {
+    return FL_METHOD_RESPONSE(fl_method_error_response_new(
+        "bad-args", "Expected map args with key 'mode'.", nullptr));
+  }
+
+  FlValue* mode_value = fl_value_lookup_string(args, "mode");
+  if (mode_value == nullptr ||
+      fl_value_get_type(mode_value) != FL_VALUE_TYPE_STRING) {
+    return FL_METHOD_RESPONSE(fl_method_error_response_new(
+        "bad-args", "Expected string field 'mode'.", nullptr));
+  }
+
+  const gchar* mode = fl_value_get_string(mode_value);
+  if (g_strcmp0(mode, "dark") != 0 && g_strcmp0(mode, "light") != 0) {
+    return FL_METHOD_RESPONSE(fl_method_error_response_new(
+        "bad-mode", "Mode must be 'dark' or 'light'.", nullptr));
+  }
+
+  apply_gtk_theme_mode(mode);
+  return FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
+}
+
+static void theme_method_call_cb(FlMethodChannel* channel,
+                                 FlMethodCall* method_call,
+                                 gpointer user_data) {
+  MyApplication* self = MY_APPLICATION(user_data);
+  g_autoptr(FlMethodResponse) response = theme_method_call(self, method_call);
+  g_autoptr(GError) error = nullptr;
+  fl_method_call_respond(method_call, response, &error);
+  if (error != nullptr) {
+    g_warning("Failed to send theme response: %s", error->message);
+  }
+}
 
 // Called when first Flutter frame received.
 static void first_frame_cb(MyApplication* self, FlView* view) {
@@ -75,6 +131,14 @@ static void my_application_activate(GApplication* application) {
 
   fl_register_plugins(FL_PLUGIN_REGISTRY(view));
 
+  g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
+  self->theme_channel = fl_method_channel_new(
+      fl_engine_get_binary_messenger(fl_view_get_engine(view)),
+      "statusinsights/theme", FL_METHOD_CODEC(codec));
+  fl_method_channel_set_method_call_handler(
+      self->theme_channel, theme_method_call_cb, g_object_ref(self),
+      g_object_unref);
+
   gtk_widget_grab_focus(GTK_WIDGET(view));
 }
 
@@ -121,6 +185,7 @@ static void my_application_shutdown(GApplication* application) {
 static void my_application_dispose(GObject* object) {
   MyApplication* self = MY_APPLICATION(object);
   g_clear_pointer(&self->dart_entrypoint_arguments, g_strfreev);
+  g_clear_object(&self->theme_channel);
   G_OBJECT_CLASS(my_application_parent_class)->dispose(object);
 }
 
@@ -133,7 +198,7 @@ static void my_application_class_init(MyApplicationClass* klass) {
   G_OBJECT_CLASS(klass)->dispose = my_application_dispose;
 }
 
-static void my_application_init(MyApplication* self) {}
+static void my_application_init(MyApplication* self) { self->theme_channel = nullptr; }
 
 MyApplication* my_application_new() {
   // Set the program name to the application ID, which helps various systems

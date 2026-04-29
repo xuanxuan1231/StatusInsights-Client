@@ -16,11 +16,15 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({
     super.key,
     required this.currentLocale,
+    required this.currentThemeModeValue,
     required this.onLocaleChanged,
+    required this.onThemeModeChanged,
   });
 
   final Locale currentLocale;
+  final String currentThemeModeValue;
   final ValueChanged<Locale> onLocaleChanged;
+  final ValueChanged<String> onThemeModeChanged;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -114,6 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
         generalSectionTitle: l10n.settingsGeneralSection,
         languageLabel: l10n.settingsLanguageLabel,
         languageHelper: l10n.settingsLanguageHelper,
+        themeModeLabel: l10n.settingsThemeModeLabel,
+        themeModeHelper: l10n.settingsThemeModeHelper,
+        themeModeValue: widget.currentThemeModeValue,
         serviceSectionTitle: l10n.settingsServiceSection,
         serverAddressLabel: l10n.settingsServerAddressLabel,
         serverAddressHelper: l10n.settingsServerAddressHelper,
@@ -133,6 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         secondsUnit: l10n.settingsSecondsUnit,
         editServerAddressTitle: l10n.settingsEditServerAddressTitle,
         editApiKeyTitle: l10n.settingsEditApiKeyTitle,
+        editThemeModeTitle: l10n.settingsEditThemeModeTitle,
         editWindowTitleBackendTitle: l10n.settingsEditWindowTitleBackendTitle,
         editWindowTitleCommandTitle: l10n.settingsEditWindowTitleCommandTitle,
         serverAddressInputHint: l10n.settingsServerAddressInputHint,
@@ -144,6 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
         invalidNumberErrorText: l10n.settingsValidationInvalidNumber,
         chineseLabel: l10n.languageChinese,
         englishLabel: l10n.languageEnglish,
+        themeModeSystemLabel: l10n.settingsThemeModeSystemLabel,
+        themeModeLightLabel: l10n.settingsThemeModeLightLabel,
+        themeModeDarkLabel: l10n.settingsThemeModeDarkLabel,
         windowTitleBackendAutoLabel: l10n.settingsWindowTitleBackendAutoLabel,
         windowTitleBackendNiriLabel: l10n.settingsWindowTitleBackendNiriLabel,
         windowTitleBackendHyprlandLabel:
@@ -156,6 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
             defaultTargetPlatform == TargetPlatform.linux,
         currentLocale: widget.currentLocale,
         onLocaleChanged: widget.onLocaleChanged,
+        onThemeModeChanged: widget.onThemeModeChanged,
         onServerAddressChanged: _setServerAddress,
         onApiKeyChanged: _setApiKey,
         onWindowTitleBackendChanged: _setWindowTitleBackend,

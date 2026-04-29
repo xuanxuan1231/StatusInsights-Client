@@ -7,6 +7,9 @@ class SettingsPage extends StatelessWidget {
     required this.generalSectionTitle,
     required this.languageLabel,
     required this.languageHelper,
+    required this.themeModeLabel,
+    required this.themeModeHelper,
+    required this.themeModeValue,
     required this.serviceSectionTitle,
     required this.serverAddressLabel,
     required this.serverAddressHelper,
@@ -26,6 +29,7 @@ class SettingsPage extends StatelessWidget {
     required this.secondsUnit,
     required this.editServerAddressTitle,
     required this.editApiKeyTitle,
+    required this.editThemeModeTitle,
     required this.editWindowTitleBackendTitle,
     required this.editWindowTitleCommandTitle,
     required this.serverAddressInputHint,
@@ -37,6 +41,9 @@ class SettingsPage extends StatelessWidget {
     required this.invalidNumberErrorText,
     required this.chineseLabel,
     required this.englishLabel,
+    required this.themeModeSystemLabel,
+    required this.themeModeLightLabel,
+    required this.themeModeDarkLabel,
     required this.windowTitleBackendAutoLabel,
     required this.windowTitleBackendNiriLabel,
     required this.windowTitleBackendHyprlandLabel,
@@ -46,6 +53,7 @@ class SettingsPage extends StatelessWidget {
     required this.showWindowTitleSettings,
     required this.currentLocale,
     required this.onLocaleChanged,
+    required this.onThemeModeChanged,
     required this.onServerAddressChanged,
     required this.onApiKeyChanged,
     required this.onWindowTitleBackendChanged,
@@ -57,6 +65,9 @@ class SettingsPage extends StatelessWidget {
   final String generalSectionTitle;
   final String languageLabel;
   final String languageHelper;
+  final String themeModeLabel;
+  final String themeModeHelper;
+  final String themeModeValue;
   final String serviceSectionTitle;
   final String serverAddressLabel;
   final String serverAddressHelper;
@@ -76,6 +87,7 @@ class SettingsPage extends StatelessWidget {
   final String secondsUnit;
   final String editServerAddressTitle;
   final String editApiKeyTitle;
+  final String editThemeModeTitle;
   final String editWindowTitleBackendTitle;
   final String editWindowTitleCommandTitle;
   final String serverAddressInputHint;
@@ -87,6 +99,9 @@ class SettingsPage extends StatelessWidget {
   final String invalidNumberErrorText;
   final String chineseLabel;
   final String englishLabel;
+  final String themeModeSystemLabel;
+  final String themeModeLightLabel;
+  final String themeModeDarkLabel;
   final String windowTitleBackendAutoLabel;
   final String windowTitleBackendNiriLabel;
   final String windowTitleBackendHyprlandLabel;
@@ -96,6 +111,7 @@ class SettingsPage extends StatelessWidget {
   final bool showWindowTitleSettings;
   final Locale currentLocale;
   final ValueChanged<Locale> onLocaleChanged;
+  final ValueChanged<String> onThemeModeChanged;
   final ValueChanged<String> onServerAddressChanged;
   final ValueChanged<String> onApiKeyChanged;
   final ValueChanged<String> onWindowTitleBackendChanged;
@@ -222,6 +238,80 @@ class SettingsPage extends StatelessWidget {
 
     if (result != null && result != serverAddressValue) {
       onServerAddressChanged(result);
+    }
+  }
+
+  Future<void> _showThemeModeDialog(BuildContext context) async {
+    String selectedValue = themeModeValue;
+    final String? result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(editThemeModeTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<String>(
+                    value: 'system',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(themeModeSystemLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'light',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(themeModeLightLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'dark',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(themeModeDarkLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(selectedValue),
+                  child: Text(MaterialLocalizations.of(context).okButtonLabel),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null && result != themeModeValue) {
+      onThemeModeChanged(result);
     }
   }
 
@@ -532,6 +622,13 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                const Divider(height: 1),
+                _SettingsInfoRow(
+                  label: themeModeLabel,
+                  helper: themeModeHelper,
+                  value: _themeModeLabel(themeModeValue),
+                  onTap: () => _showThemeModeDialog(context),
+                ),
               ],
             ),
           ),
@@ -620,6 +717,18 @@ class SettingsPage extends StatelessWidget {
       case 'auto':
       default:
         return windowTitleBackendAutoLabel;
+    }
+  }
+
+  String _themeModeLabel(String value) {
+    switch (value) {
+      case 'light':
+        return themeModeLightLabel;
+      case 'dark':
+        return themeModeDarkLabel;
+      case 'system':
+      default:
+        return themeModeSystemLabel;
     }
   }
 }

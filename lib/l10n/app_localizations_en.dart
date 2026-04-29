@@ -101,6 +101,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageHelper => 'Choose the app display language.';
 
   @override
+  String get settingsThemeModeLabel => 'Theme Mode';
+
+  @override
+  String get settingsThemeModeHelper =>
+      'Follow system automatically, or switch to light/dark manually.';
+
+  @override
+  String get settingsEditThemeModeTitle => 'Choose Theme Mode';
+
+  @override
+  String get settingsThemeModeSystemLabel => 'Auto';
+
+  @override
+  String get settingsThemeModeLightLabel => 'Light';
+
+  @override
+  String get settingsThemeModeDarkLabel => 'Dark';
+
+  @override
   String get settingsServiceSection => 'Service';
 
   @override
