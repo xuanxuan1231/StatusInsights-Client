@@ -149,8 +149,92 @@ abstract class AppLocalizations {
   /// No description provided for @reportsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Review trends, incidents, and historical reports.'**
+  /// **'Report person and device status manually or automatically.'**
   String get reportsDescription;
+
+  /// No description provided for @reportsPersonSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Person Status Report'**
+  String get reportsPersonSectionTitle;
+
+  /// No description provided for @reportsDeviceSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Status Report'**
+  String get reportsDeviceSectionTitle;
+
+  /// No description provided for @reportsStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get reportsStatusLabel;
+
+  /// No description provided for @reportsDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get reportsDescriptionLabel;
+
+  /// No description provided for @reportsManualReportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Report'**
+  String get reportsManualReportButton;
+
+  /// No description provided for @reportsRegisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get reportsRegisterButton;
+
+  /// No description provided for @reportsUnregisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unregister'**
+  String get reportsUnregisterButton;
+
+  /// No description provided for @reportsRegisteredStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered'**
+  String get reportsRegisteredStatus;
+
+  /// No description provided for @reportsUnregisteredStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Unregistered'**
+  String get reportsUnregisteredStatus;
+
+  /// No description provided for @reportsDeviceNotRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Device is not registered. Register first.'**
+  String get reportsDeviceNotRegistered;
+
+  /// No description provided for @reportsRegistrationIndependentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Device reporting does not depend on local registration state checks.'**
+  String get reportsRegistrationIndependentHint;
+
+  /// No description provided for @reportsActualStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual reported status (foreground window title)'**
+  String get reportsActualStatusLabel;
+
+  /// No description provided for @reportsStatusEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'-'**
+  String get reportsStatusEmpty;
+
+  /// No description provided for @reportsDeviceId.
+  ///
+  /// In en, this message translates to:
+  /// **'device_id: {value}'**
+  String reportsDeviceId(Object value);
 
   /// No description provided for @settingsTitle.
   ///
@@ -217,6 +301,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a full URL, for example https://api.example.com'**
   String get settingsServerAddressInputHint;
+
+  /// No description provided for @settingsApiKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'API Key'**
+  String get settingsApiKeyLabel;
+
+  /// No description provided for @settingsApiKeyHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Value used for the X-API-Key request header.'**
+  String get settingsApiKeyHelper;
+
+  /// No description provided for @settingsEditApiKeyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit API Key'**
+  String get settingsEditApiKeyTitle;
+
+  /// No description provided for @settingsApiKeyInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter API Key'**
+  String get settingsApiKeyInputHint;
+
+  /// No description provided for @settingsWindowTitleBackendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Window Title Source'**
+  String get settingsWindowTitleBackendLabel;
+
+  /// No description provided for @settingsWindowTitleBackendHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how to get foreground window title.'**
+  String get settingsWindowTitleBackendHelper;
+
+  /// No description provided for @settingsWindowTitleCommandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Title Command'**
+  String get settingsWindowTitleCommandLabel;
+
+  /// No description provided for @settingsWindowTitleCommandHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Used only when source is Custom Command.'**
+  String get settingsWindowTitleCommandHelper;
+
+  /// No description provided for @settingsEditWindowTitleBackendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Window Title Source'**
+  String get settingsEditWindowTitleBackendTitle;
+
+  /// No description provided for @settingsEditWindowTitleCommandTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Custom Title Command'**
+  String get settingsEditWindowTitleCommandTitle;
+
+  /// No description provided for @settingsWindowTitleCommandInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter command that outputs title text'**
+  String get settingsWindowTitleCommandInputHint;
+
+  /// No description provided for @settingsWindowTitleBackendAutoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Detect'**
+  String get settingsWindowTitleBackendAutoLabel;
+
+  /// No description provided for @settingsWindowTitleBackendNiriLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'niri'**
+  String get settingsWindowTitleBackendNiriLabel;
+
+  /// No description provided for @settingsWindowTitleBackendHyprlandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hyprland'**
+  String get settingsWindowTitleBackendHyprlandLabel;
+
+  /// No description provided for @settingsWindowTitleBackendSwayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'sway'**
+  String get settingsWindowTitleBackendSwayLabel;
+
+  /// No description provided for @settingsWindowTitleBackendX11Label.
+  ///
+  /// In en, this message translates to:
+  /// **'X11 (xprop)'**
+  String get settingsWindowTitleBackendX11Label;
+
+  /// No description provided for @settingsWindowTitleBackendCustomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Command'**
+  String get settingsWindowTitleBackendCustomLabel;
 
   /// No description provided for @settingsValidationInvalidUrl.
   ///
@@ -391,6 +577,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More settings and feature modules will be added continuously.'**
   String get aboutNoteFuture;
+
+  /// No description provided for @androidUsagePermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Required'**
+  String get androidUsagePermissionTitle;
+
+  /// No description provided for @androidUsagePermissionMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please grant Usage Access permission, or the app cannot get foreground app names from other apps.'**
+  String get androidUsagePermissionMessage;
+
+  /// No description provided for @androidUsagePermissionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get androidUsagePermissionAction;
 }
 
 class _AppLocalizationsDelegate

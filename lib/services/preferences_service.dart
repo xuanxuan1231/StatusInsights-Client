@@ -2,9 +2,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
   static const String _keyServerAddress = 'server_address';
+  static const String _keyApiKey = 'api_key';
   static const String _keyReportInterval = 'report_interval';
   static const String _keyDeviceName = 'device_name';
   static const String _keyDeviceDescription = 'device_description';
+  static const String _keyDeviceId = 'device_id';
+  static const String _keyWindowTitleBackend = 'window_title_backend';
+  static const String _keyWindowTitleCommand = 'window_title_command';
   static const String _keyLanguageCode = 'language_code';
 
   late final SharedPreferences _prefs;
@@ -22,6 +26,15 @@ class PreferencesService {
 
   String? getServerAddress() {
     return _prefs.getString(_keyServerAddress);
+  }
+
+  // API Key
+  Future<bool> setApiKey(String value) async {
+    return _prefs.setString(_keyApiKey, value);
+  }
+
+  String? getApiKey() {
+    return _prefs.getString(_keyApiKey);
   }
 
   // Report Interval
@@ -49,6 +62,33 @@ class PreferencesService {
 
   String? getDeviceDescription() {
     return _prefs.getString(_keyDeviceDescription);
+  }
+
+  // Device ID
+  Future<bool> setDeviceId(String value) async {
+    return _prefs.setString(_keyDeviceId, value);
+  }
+
+  String? getDeviceId() {
+    return _prefs.getString(_keyDeviceId);
+  }
+
+  // Window Title Backend
+  Future<bool> setWindowTitleBackend(String value) async {
+    return _prefs.setString(_keyWindowTitleBackend, value);
+  }
+
+  String? getWindowTitleBackend() {
+    return _prefs.getString(_keyWindowTitleBackend);
+  }
+
+  // Window Title Command
+  Future<bool> setWindowTitleCommand(String value) async {
+    return _prefs.setString(_keyWindowTitleCommand, value);
+  }
+
+  String? getWindowTitleCommand() {
+    return _prefs.getString(_keyWindowTitleCommand);
   }
 
   // Language Code

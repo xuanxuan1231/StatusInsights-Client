@@ -33,7 +33,51 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportsTitle => '上报';
 
   @override
-  String get reportsDescription => '查看趋势、事件和历史报表。';
+  String get reportsDescription => '手动或自动上报个人与设备状态。';
+
+  @override
+  String get reportsPersonSectionTitle => '个人状态上报';
+
+  @override
+  String get reportsDeviceSectionTitle => '设备状态上报';
+
+  @override
+  String get reportsStatusLabel => '状态';
+
+  @override
+  String get reportsDescriptionLabel => '描述';
+
+  @override
+  String get reportsManualReportButton => '手动上报';
+
+  @override
+  String get reportsRegisterButton => '注册';
+
+  @override
+  String get reportsUnregisterButton => '取消注册';
+
+  @override
+  String get reportsRegisteredStatus => '已注册';
+
+  @override
+  String get reportsUnregisteredStatus => '未注册';
+
+  @override
+  String get reportsDeviceNotRegistered => '设备尚未注册，请先注册。';
+
+  @override
+  String get reportsRegistrationIndependentHint => '设备上报不依赖本地注册状态判断。';
+
+  @override
+  String get reportsActualStatusLabel => '实际上报内容（前台窗口标题）';
+
+  @override
+  String get reportsStatusEmpty => '-';
+
+  @override
+  String reportsDeviceId(Object value) {
+    return 'device_id: $value';
+  }
 
   @override
   String get settingsTitle => '设置';
@@ -68,6 +112,57 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get settingsServerAddressInputHint =>
       '请输入完整 URL，例如 https://api.example.com';
+
+  @override
+  String get settingsApiKeyLabel => 'API Key';
+
+  @override
+  String get settingsApiKeyHelper => '请求头 X-API-Key 的值。';
+
+  @override
+  String get settingsEditApiKeyTitle => '编辑 API Key';
+
+  @override
+  String get settingsApiKeyInputHint => '请输入 API Key';
+
+  @override
+  String get settingsWindowTitleBackendLabel => '窗口标题来源';
+
+  @override
+  String get settingsWindowTitleBackendHelper => '选择获取前台窗口标题的方式。';
+
+  @override
+  String get settingsWindowTitleCommandLabel => '自定义标题命令';
+
+  @override
+  String get settingsWindowTitleCommandHelper => '仅在来源为“自定义命令”时使用。';
+
+  @override
+  String get settingsEditWindowTitleBackendTitle => '选择窗口标题来源';
+
+  @override
+  String get settingsEditWindowTitleCommandTitle => '编辑自定义标题命令';
+
+  @override
+  String get settingsWindowTitleCommandInputHint => '请输入命令，输出窗口标题文本';
+
+  @override
+  String get settingsWindowTitleBackendAutoLabel => '自动识别';
+
+  @override
+  String get settingsWindowTitleBackendNiriLabel => 'niri';
+
+  @override
+  String get settingsWindowTitleBackendHyprlandLabel => 'Hyprland';
+
+  @override
+  String get settingsWindowTitleBackendSwayLabel => 'sway';
+
+  @override
+  String get settingsWindowTitleBackendX11Label => 'X11 (xprop)';
+
+  @override
+  String get settingsWindowTitleBackendCustomLabel => '自定义命令';
 
   @override
   String get settingsValidationInvalidUrl => '请输入有效的 URL。';
@@ -157,4 +252,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aboutNoteFuture => '后续将持续补充更多设置项与功能模块。';
+
+  @override
+  String get androidUsagePermissionTitle => '授权提示';
+
+  @override
+  String get androidUsagePermissionMessage => '请授予“使用情况访问权限”，否则无法获取其他应用的前台应用名。';
+
+  @override
+  String get androidUsagePermissionAction => '前往授权';
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:math';
 
 import 'l10n/app_localizations.dart';
 import 'main.dart';
 import 'models/status_summary.dart';
 import 'pages/about.dart';
+import 'pages/reports.dart';
 import 'pages/settings.dart';
+import 'services/active_window_service.dart';
 import 'services/status_service.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -29,20 +32,76 @@ class _MyHomePageState extends State<MyHomePage> {
   static const int _defaultReportIntervalSeconds = 60;
   static const String _defaultDeviceName = '我的设备';
   static const String _defaultDeviceDescription = '用于监控应用和系统状态。';
+  static const String _defaultApiKey = '';
+  static const String _defaultWindowTitleBackend = 'auto';
+  static const String _defaultWindowTitleCommand = '';
 
   int _selectedIndex = 0;
   String _serverAddress = _defaultServerAddress;
+  String _apiKey = _defaultApiKey;
+  String _windowTitleBackend = _defaultWindowTitleBackend;
+  String _windowTitleCommand = _defaultWindowTitleCommand;
   int _reportIntervalSeconds = _defaultReportIntervalSeconds;
   String _deviceName = _defaultDeviceName;
   String _deviceDescription = _defaultDeviceDescription;
+  String _deviceId = '';
 
   final GlobalKey<_OverviewPageState> _overviewPageKey =
       GlobalKey<_OverviewPageState>();
+  bool _androidUsageAccessPromptShown = false;
 
   @override
   void initState() {
     super.initState();
     _loadPreferences();
+    _checkAndroidUsageAccessPermission();
+  }
+
+  Future<void> _checkAndroidUsageAccessPermission() async {
+    if (defaultTargetPlatform != TargetPlatform.android ||
+        _androidUsageAccessPromptShown) {
+      return;
+    }
+    final hasPermission =
+        await ActiveWindowService.hasAndroidUsageStatsPermission();
+    if (hasPermission || !mounted) {
+      return;
+    }
+    _androidUsageAccessPromptShown = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _showAndroidUsageAccessDialog();
+    });
+  }
+
+  Future<void> _showAndroidUsageAccessDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.androidUsagePermissionTitle),
+          content: Text(l10n.androidUsagePermissionMessage),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+            TextButton(
+              onPressed: () async {
+                await ActiveWindowService.openAndroidUsageAccessSettings();
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(l10n.androidUsagePermissionAction),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   _NavItem _buildSettingsNavItem(AppLocalizations l10n) {
@@ -59,21 +118,48 @@ class _MyHomePageState extends State<MyHomePage> {
         serverAddressLabel: l10n.settingsServerAddressLabel,
         serverAddressHelper: l10n.settingsServerAddressHelper,
         serverAddressValue: _serverAddress,
+        apiKeyLabel: l10n.settingsApiKeyLabel,
+        apiKeyHelper: l10n.settingsApiKeyHelper,
+        apiKeyValue: _apiKey,
+        windowTitleBackendLabel: l10n.settingsWindowTitleBackendLabel,
+        windowTitleBackendHelper: l10n.settingsWindowTitleBackendHelper,
+        windowTitleBackendValue: _windowTitleBackend,
+        windowTitleCommandLabel: l10n.settingsWindowTitleCommandLabel,
+        windowTitleCommandHelper: l10n.settingsWindowTitleCommandHelper,
+        windowTitleCommandValue: _windowTitleCommand,
         reportIntervalLabel: l10n.settingsReportIntervalLabel,
         reportIntervalHelper: l10n.settingsReportIntervalHelper,
         reportIntervalSeconds: _reportIntervalSeconds,
         secondsUnit: l10n.settingsSecondsUnit,
         editServerAddressTitle: l10n.settingsEditServerAddressTitle,
+        editApiKeyTitle: l10n.settingsEditApiKeyTitle,
+        editWindowTitleBackendTitle: l10n.settingsEditWindowTitleBackendTitle,
+        editWindowTitleCommandTitle: l10n.settingsEditWindowTitleCommandTitle,
         serverAddressInputHint: l10n.settingsServerAddressInputHint,
+        apiKeyInputHint: l10n.settingsApiKeyInputHint,
+        windowTitleCommandInputHint: l10n.settingsWindowTitleCommandInputHint,
         invalidUrlErrorText: l10n.settingsValidationInvalidUrl,
         editReportIntervalTitle: l10n.settingsEditReportIntervalTitle,
         reportIntervalInputHint: l10n.settingsReportIntervalInputHint,
         invalidNumberErrorText: l10n.settingsValidationInvalidNumber,
         chineseLabel: l10n.languageChinese,
         englishLabel: l10n.languageEnglish,
+        windowTitleBackendAutoLabel: l10n.settingsWindowTitleBackendAutoLabel,
+        windowTitleBackendNiriLabel: l10n.settingsWindowTitleBackendNiriLabel,
+        windowTitleBackendHyprlandLabel:
+            l10n.settingsWindowTitleBackendHyprlandLabel,
+        windowTitleBackendSwayLabel: l10n.settingsWindowTitleBackendSwayLabel,
+        windowTitleBackendX11Label: l10n.settingsWindowTitleBackendX11Label,
+        windowTitleBackendCustomLabel:
+            l10n.settingsWindowTitleBackendCustomLabel,
+        showWindowTitleSettings:
+            defaultTargetPlatform == TargetPlatform.linux,
         currentLocale: widget.currentLocale,
         onLocaleChanged: widget.onLocaleChanged,
         onServerAddressChanged: _setServerAddress,
+        onApiKeyChanged: _setApiKey,
+        onWindowTitleBackendChanged: _setWindowTitleBackend,
+        onWindowTitleCommandChanged: _setWindowTitleCommand,
         onReportIntervalChanged: _setReportIntervalSeconds,
       ),
     );
@@ -81,15 +167,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _loadPreferences() async {
     final savedAddress = preferencesService.getServerAddress();
+    final savedApiKey = preferencesService.getApiKey();
     final savedInterval = preferencesService.getReportInterval();
     final savedName = preferencesService.getDeviceName();
     final savedDescription = preferencesService.getDeviceDescription();
+    final savedWindowTitleBackend = preferencesService.getWindowTitleBackend();
+    final savedWindowTitleCommand = preferencesService.getWindowTitleCommand();
+    var savedDeviceId = preferencesService.getDeviceId();
+    if (savedDeviceId == null || savedDeviceId.isEmpty) {
+      savedDeviceId = _generateDeviceId();
+      preferencesService.setDeviceId(savedDeviceId);
+    }
 
     setState(() {
       _serverAddress = savedAddress ?? _defaultServerAddress;
+      _apiKey = savedApiKey ?? _defaultApiKey;
+      _windowTitleBackend =
+          savedWindowTitleBackend ?? _defaultWindowTitleBackend;
+      _windowTitleCommand =
+          savedWindowTitleCommand ?? _defaultWindowTitleCommand;
       _reportIntervalSeconds = savedInterval ?? _defaultReportIntervalSeconds;
       _deviceName = savedName ?? _defaultDeviceName;
       _deviceDescription = savedDescription ?? _defaultDeviceDescription;
+      _deviceId = savedDeviceId!;
     });
   }
 
@@ -97,6 +197,22 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _serverAddress = value);
     preferencesService.setServerAddress(value);
     _overviewPageKey.currentState?.refresh();
+  }
+
+  void _setApiKey(String value) {
+    setState(() => _apiKey = value);
+    preferencesService.setApiKey(value);
+    _overviewPageKey.currentState?.refresh();
+  }
+
+  void _setWindowTitleBackend(String value) {
+    setState(() => _windowTitleBackend = value);
+    preferencesService.setWindowTitleBackend(value);
+  }
+
+  void _setWindowTitleCommand(String value) {
+    setState(() => _windowTitleCommand = value);
+    preferencesService.setWindowTitleCommand(value);
   }
 
   void _setReportIntervalSeconds(int value) {
@@ -134,7 +250,16 @@ class _MyHomePageState extends State<MyHomePage> {
         label: l10n.navReports,
         icon: Icons.bar_chart_outlined,
         selectedIcon: Icons.bar_chart,
-        content: const _PageContent(),
+        content: ReportsPage(
+          serverAddress: _serverAddress,
+          apiKey: _apiKey,
+          deviceId: _deviceId,
+          deviceName: _deviceName,
+          deviceDescription: _deviceDescription,
+          deviceType: _getDeviceTypeForApi(),
+          windowTitleBackend: _windowTitleBackend,
+          windowTitleCommand: _windowTitleCommand,
+        ),
       ),
       _buildSettingsNavItem(l10n),
       _NavItem(
@@ -188,26 +313,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     Expanded(
                       child: _BodyContent(
                         pageTitle: items[_selectedIndex].label,
+                        onRefresh: _selectedIndex == 0
+                            ? () => _overviewPageKey.currentState?.refresh()
+                            : null,
                         child: IndexedStack(
                           index: _selectedIndex,
                           children: items.map((item) => item.content).toList(),
                         ),
-                        onRefresh: _selectedIndex == 0
-                            ? () => _overviewPageKey.currentState?.refresh()
-                            : null,
                       ),
                     ),
                   ],
                 )
               : _BodyContent(
                   pageTitle: items[_selectedIndex].label,
+                  onRefresh: _selectedIndex == 0
+                      ? () => _overviewPageKey.currentState?.refresh()
+                      : null,
                   child: IndexedStack(
                     index: _selectedIndex,
                     children: items.map((item) => item.content).toList(),
                   ),
-                  onRefresh: _selectedIndex == 0
-                      ? () => _overviewPageKey.currentState?.refresh()
-                      : null,
                 ),
           bottomNavigationBar: isDesktop
               ? null
@@ -229,6 +354,37 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  String _getDeviceTypeForApi() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.windows:
+        return 'windows';
+      case TargetPlatform.macOS:
+        return 'macos';
+      case TargetPlatform.linux:
+        return 'linux';
+      case TargetPlatform.android:
+        return 'android';
+      case TargetPlatform.iOS:
+        return 'ios';
+      default:
+        return 'unknown';
+    }
+  }
+
+  String _generateDeviceId() {
+    final random = Random.secure();
+    final bytes = List<int>.generate(16, (_) => random.nextInt(256));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    String twoDigits(int value) => value.toRadixString(16).padLeft(2, '0');
+    final hex = bytes.map(twoDigits).toList();
+    return '${hex[0]}${hex[1]}${hex[2]}${hex[3]}-'
+        '${hex[4]}${hex[5]}-'
+        '${hex[6]}${hex[7]}-'
+        '${hex[8]}${hex[9]}-'
+        '${hex[10]}${hex[11]}${hex[12]}${hex[13]}${hex[14]}${hex[15]}';
   }
 }
 
@@ -310,14 +466,10 @@ class _OverviewPageState extends State<OverviewPage> {
   StatusSummary? _statusData;
   bool _isLoading = true;
   String? _errorMessage;
-  late StatusService _statusService;
 
   @override
   void initState() {
     super.initState();
-    final serverAddress =
-        preferencesService.getServerAddress() ?? 'https://api.example.com';
-    _statusService = StatusService(baseUrl: serverAddress);
     _fetchStatus();
     _startPeriodicFetch();
   }
@@ -335,7 +487,11 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Future<void> _fetchStatus() async {
-    final result = await _statusService.fetchStatusSummary();
+    final serverAddress =
+        preferencesService.getServerAddress() ?? 'https://api.example.com';
+    final apiKey = preferencesService.getApiKey() ?? '';
+    final statusService = StatusService(baseUrl: serverAddress, apiKey: apiKey);
+    final result = await statusService.fetchStatusSummary();
     if (mounted) {
       final l10n = AppLocalizations.of(context)!;
       setState(() {
@@ -674,20 +830,10 @@ class _OverviewPageState extends State<OverviewPage> {
                       ),
                     ),
                   ),
-                )
-                .toList(),
+                ),
           ],
         ],
       ),
     ];
-  }
-}
-
-class _PageContent extends StatelessWidget {
-  const _PageContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.expand(child: Center(child: SizedBox.shrink()));
   }
 }

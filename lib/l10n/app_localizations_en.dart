@@ -35,7 +35,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportsDescription =>
-      'Review trends, incidents, and historical reports.';
+      'Report person and device status manually or automatically.';
+
+  @override
+  String get reportsPersonSectionTitle => 'Person Status Report';
+
+  @override
+  String get reportsDeviceSectionTitle => 'Device Status Report';
+
+  @override
+  String get reportsStatusLabel => 'Status';
+
+  @override
+  String get reportsDescriptionLabel => 'Description';
+
+  @override
+  String get reportsManualReportButton => 'Manual Report';
+
+  @override
+  String get reportsRegisterButton => 'Register';
+
+  @override
+  String get reportsUnregisterButton => 'Unregister';
+
+  @override
+  String get reportsRegisteredStatus => 'Registered';
+
+  @override
+  String get reportsUnregisteredStatus => 'Unregistered';
+
+  @override
+  String get reportsDeviceNotRegistered =>
+      'Device is not registered. Register first.';
+
+  @override
+  String get reportsRegistrationIndependentHint =>
+      'Device reporting does not depend on local registration state checks.';
+
+  @override
+  String get reportsActualStatusLabel =>
+      'Actual reported status (foreground window title)';
+
+  @override
+  String get reportsStatusEmpty => '-';
+
+  @override
+  String reportsDeviceId(Object value) {
+    return 'device_id: $value';
+  }
 
   @override
   String get settingsTitle => 'Settings';
@@ -72,6 +119,62 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsServerAddressInputHint =>
       'Enter a full URL, for example https://api.example.com';
+
+  @override
+  String get settingsApiKeyLabel => 'API Key';
+
+  @override
+  String get settingsApiKeyHelper =>
+      'Value used for the X-API-Key request header.';
+
+  @override
+  String get settingsEditApiKeyTitle => 'Edit API Key';
+
+  @override
+  String get settingsApiKeyInputHint => 'Enter API Key';
+
+  @override
+  String get settingsWindowTitleBackendLabel => 'Window Title Source';
+
+  @override
+  String get settingsWindowTitleBackendHelper =>
+      'Choose how to get foreground window title.';
+
+  @override
+  String get settingsWindowTitleCommandLabel => 'Custom Title Command';
+
+  @override
+  String get settingsWindowTitleCommandHelper =>
+      'Used only when source is Custom Command.';
+
+  @override
+  String get settingsEditWindowTitleBackendTitle =>
+      'Choose Window Title Source';
+
+  @override
+  String get settingsEditWindowTitleCommandTitle => 'Edit Custom Title Command';
+
+  @override
+  String get settingsWindowTitleCommandInputHint =>
+      'Enter command that outputs title text';
+
+  @override
+  String get settingsWindowTitleBackendAutoLabel => 'Auto Detect';
+
+  @override
+  String get settingsWindowTitleBackendNiriLabel => 'niri';
+
+  @override
+  String get settingsWindowTitleBackendHyprlandLabel => 'Hyprland';
+
+  @override
+  String get settingsWindowTitleBackendSwayLabel => 'sway';
+
+  @override
+  String get settingsWindowTitleBackendX11Label => 'X11 (xprop)';
+
+  @override
+  String get settingsWindowTitleBackendCustomLabel => 'Custom Command';
 
   @override
   String get settingsValidationInvalidUrl => 'Please enter a valid URL.';
@@ -167,4 +270,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aboutNoteFuture =>
       'More settings and feature modules will be added continuously.';
+
+  @override
+  String get androidUsagePermissionTitle => 'Permission Required';
+
+  @override
+  String get androidUsagePermissionMessage =>
+      'Please grant Usage Access permission, or the app cannot get foreground app names from other apps.';
+
+  @override
+  String get androidUsagePermissionAction => 'Open Settings';
 }

@@ -11,21 +11,45 @@ class SettingsPage extends StatelessWidget {
     required this.serverAddressLabel,
     required this.serverAddressHelper,
     required this.serverAddressValue,
+    required this.apiKeyLabel,
+    required this.apiKeyHelper,
+    required this.apiKeyValue,
+    required this.windowTitleBackendLabel,
+    required this.windowTitleBackendHelper,
+    required this.windowTitleBackendValue,
+    required this.windowTitleCommandLabel,
+    required this.windowTitleCommandHelper,
+    required this.windowTitleCommandValue,
     required this.reportIntervalLabel,
     required this.reportIntervalHelper,
     required this.reportIntervalSeconds,
     required this.secondsUnit,
     required this.editServerAddressTitle,
+    required this.editApiKeyTitle,
+    required this.editWindowTitleBackendTitle,
+    required this.editWindowTitleCommandTitle,
     required this.serverAddressInputHint,
+    required this.apiKeyInputHint,
+    required this.windowTitleCommandInputHint,
     required this.invalidUrlErrorText,
     required this.editReportIntervalTitle,
     required this.reportIntervalInputHint,
     required this.invalidNumberErrorText,
     required this.chineseLabel,
     required this.englishLabel,
+    required this.windowTitleBackendAutoLabel,
+    required this.windowTitleBackendNiriLabel,
+    required this.windowTitleBackendHyprlandLabel,
+    required this.windowTitleBackendSwayLabel,
+    required this.windowTitleBackendX11Label,
+    required this.windowTitleBackendCustomLabel,
+    required this.showWindowTitleSettings,
     required this.currentLocale,
     required this.onLocaleChanged,
     required this.onServerAddressChanged,
+    required this.onApiKeyChanged,
+    required this.onWindowTitleBackendChanged,
+    required this.onWindowTitleCommandChanged,
     required this.onReportIntervalChanged,
   });
 
@@ -37,21 +61,45 @@ class SettingsPage extends StatelessWidget {
   final String serverAddressLabel;
   final String serverAddressHelper;
   final String serverAddressValue;
+  final String apiKeyLabel;
+  final String apiKeyHelper;
+  final String apiKeyValue;
+  final String windowTitleBackendLabel;
+  final String windowTitleBackendHelper;
+  final String windowTitleBackendValue;
+  final String windowTitleCommandLabel;
+  final String windowTitleCommandHelper;
+  final String windowTitleCommandValue;
   final String reportIntervalLabel;
   final String reportIntervalHelper;
   final int reportIntervalSeconds;
   final String secondsUnit;
   final String editServerAddressTitle;
+  final String editApiKeyTitle;
+  final String editWindowTitleBackendTitle;
+  final String editWindowTitleCommandTitle;
   final String serverAddressInputHint;
+  final String apiKeyInputHint;
+  final String windowTitleCommandInputHint;
   final String invalidUrlErrorText;
   final String editReportIntervalTitle;
   final String reportIntervalInputHint;
   final String invalidNumberErrorText;
   final String chineseLabel;
   final String englishLabel;
+  final String windowTitleBackendAutoLabel;
+  final String windowTitleBackendNiriLabel;
+  final String windowTitleBackendHyprlandLabel;
+  final String windowTitleBackendSwayLabel;
+  final String windowTitleBackendX11Label;
+  final String windowTitleBackendCustomLabel;
+  final bool showWindowTitleSettings;
   final Locale currentLocale;
   final ValueChanged<Locale> onLocaleChanged;
   final ValueChanged<String> onServerAddressChanged;
+  final ValueChanged<String> onApiKeyChanged;
+  final ValueChanged<String> onWindowTitleBackendChanged;
+  final ValueChanged<String> onWindowTitleCommandChanged;
   final ValueChanged<int> onReportIntervalChanged;
 
   Future<void> _showLanguageDialog(BuildContext context) async {
@@ -68,8 +116,10 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   RadioListTile<String>(
                     value: 'zh',
+                    // ignore: deprecated_member_use
                     groupValue: selectedCode,
                     title: Text(chineseLabel),
+                    // ignore: deprecated_member_use
                     onChanged: (value) {
                       if (value == null) {
                         return;
@@ -79,8 +129,10 @@ class SettingsPage extends StatelessWidget {
                   ),
                   RadioListTile<String>(
                     value: 'en',
+                    // ignore: deprecated_member_use
                     groupValue: selectedCode,
                     title: Text(englishLabel),
+                    // ignore: deprecated_member_use
                     onChanged: (value) {
                       if (value == null) {
                         return;
@@ -228,6 +280,187 @@ class SettingsPage extends StatelessWidget {
     }
   }
 
+  Future<void> _showApiKeyDialog(BuildContext context) async {
+    final controller = TextEditingController(text: apiKeyValue);
+    final String? result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(editApiKeyTitle),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: InputDecoration(hintText: apiKeyInputHint),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(controller.text.trim()),
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
+            ),
+          ],
+        );
+      },
+    );
+
+    controller.dispose();
+
+    if (result != null && result != apiKeyValue) {
+      onApiKeyChanged(result);
+    }
+  }
+
+  Future<void> _showWindowTitleBackendDialog(BuildContext context) async {
+    String selectedValue = windowTitleBackendValue;
+    final String? result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(editWindowTitleBackendTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<String>(
+                    value: 'auto',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendAutoLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'niri',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendNiriLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'hyprland',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendHyprlandLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'sway',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendSwayLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'x11',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendX11Label),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    value: 'custom',
+                    // ignore: deprecated_member_use
+                    groupValue: selectedValue,
+                    title: Text(windowTitleBackendCustomLabel),
+                    // ignore: deprecated_member_use
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setDialogState(() => selectedValue = value);
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(selectedValue),
+                  child: Text(MaterialLocalizations.of(context).okButtonLabel),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null && result != windowTitleBackendValue) {
+      onWindowTitleBackendChanged(result);
+    }
+  }
+
+  Future<void> _showWindowTitleCommandDialog(BuildContext context) async {
+    final controller = TextEditingController(text: windowTitleCommandValue);
+    final String? result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(editWindowTitleCommandTitle),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: InputDecoration(hintText: windowTitleCommandInputHint),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(controller.text.trim()),
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
+            ),
+          ],
+        );
+      },
+    );
+    controller.dispose();
+
+    if (result != null && result != windowTitleCommandValue) {
+      onWindowTitleCommandChanged(result);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -327,6 +560,31 @@ class SettingsPage extends StatelessWidget {
                 ),
                 const Divider(height: 1),
                 _SettingsInfoRow(
+                  label: apiKeyLabel,
+                  helper: apiKeyHelper,
+                  value: _maskApiKey(apiKeyValue),
+                  onTap: () => _showApiKeyDialog(context),
+                ),
+                if (showWindowTitleSettings) ...[
+                  const Divider(height: 1),
+                  _SettingsInfoRow(
+                    label: windowTitleBackendLabel,
+                    helper: windowTitleBackendHelper,
+                    value: _backendLabel(windowTitleBackendValue),
+                    onTap: () => _showWindowTitleBackendDialog(context),
+                  ),
+                  const Divider(height: 1),
+                  _SettingsInfoRow(
+                    label: windowTitleCommandLabel,
+                    helper: windowTitleCommandHelper,
+                    value: windowTitleCommandValue.isEmpty
+                        ? '-'
+                        : windowTitleCommandValue,
+                    onTap: () => _showWindowTitleCommandDialog(context),
+                  ),
+                ],
+                const Divider(height: 1),
+                _SettingsInfoRow(
                   label: reportIntervalLabel,
                   helper: reportIntervalHelper,
                   value: '$reportIntervalSeconds $secondsUnit',
@@ -338,6 +596,31 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _maskApiKey(String value) {
+    if (value.isEmpty) {
+      return '-';
+    }
+    return '********';
+  }
+
+  String _backendLabel(String value) {
+    switch (value) {
+      case 'niri':
+        return windowTitleBackendNiriLabel;
+      case 'hyprland':
+        return windowTitleBackendHyprlandLabel;
+      case 'sway':
+        return windowTitleBackendSwayLabel;
+      case 'x11':
+        return windowTitleBackendX11Label;
+      case 'custom':
+        return windowTitleBackendCustomLabel;
+      case 'auto':
+      default:
+        return windowTitleBackendAutoLabel;
+    }
   }
 }
 
