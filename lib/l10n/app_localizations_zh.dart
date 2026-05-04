@@ -266,6 +266,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get editDeviceInfo => '编辑设备信息';
 
   @override
+  String get deviceInfoUpdateSuccess => '设备信息已更新。';
+
+  @override
+  String get deviceInfoUpdateFailed => '设备信息更新失败。';
+
+  @override
   String get aboutTitle => '关于';
 
   @override

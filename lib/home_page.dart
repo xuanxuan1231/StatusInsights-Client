@@ -252,6 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedIcon: Icons.home,
         content: OverviewPage(
           key: _overviewPageKey,
+          deviceId: _deviceId,
           deviceName: _deviceName,
           deviceDescription: _deviceDescription,
           onDeviceInfoChanged: (name, description) {
@@ -463,11 +464,13 @@ class _BodyContent extends StatelessWidget {
 class OverviewPage extends StatefulWidget {
   const OverviewPage({
     super.key,
+    required this.deviceId,
     required this.deviceName,
     required this.deviceDescription,
     required this.onDeviceInfoChanged,
   });
 
+  final String deviceId;
   final String deviceName;
   final String deviceDescription;
   final Function(String, String) onDeviceInfoChanged;
@@ -550,53 +553,130 @@ class _OverviewPageState extends State<OverviewPage> {
   void _showEditDeviceInfoDialog(BuildContext context) {
     String tempName = widget.deviceName;
     String tempDescription = widget.deviceDescription;
-    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
 
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(l10n.editDeviceInfo),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 16,
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: l10n.deviceNameLabel,
-                    helperText: l10n.deviceNameHelper,
-                    border: const OutlineInputBorder(),
-                  ),
-                  controller: TextEditingController(text: tempName),
-                  onChanged: (value) => tempName = value,
+        final nameController = TextEditingController(text: tempName);
+        final descriptionController = TextEditingController(text: tempDescription);
+        bool isSubmitting = false;
+
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            final l10n = AppLocalizations.of(dialogContext)!;
+            return AlertDialog(
+              title: Text(l10n.editDeviceInfo),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 16,
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      enabled: !isSubmitting,
+                      decoration: InputDecoration(
+                        labelText: l10n.deviceNameLabel,
+                        helperText: l10n.deviceNameHelper,
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (value) => tempName = value,
+                    ),
+                    TextField(
+                      controller: descriptionController,
+                      enabled: !isSubmitting,
+                      decoration: InputDecoration(
+                        labelText: l10n.deviceDescriptionLabel,
+                        helperText: l10n.deviceDescriptionHelper,
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (value) => tempDescription = value,
+                      maxLines: 3,
+                    ),
+                  ],
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: l10n.deviceDescriptionLabel,
-                    helperText: l10n.deviceDescriptionHelper,
-                    border: const OutlineInputBorder(),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isSubmitting
+                      ? null
+                      : () => Navigator.pop(dialogContext),
+                  child: Text(
+                    MaterialLocalizations.of(dialogContext).cancelButtonLabel,
                   ),
-                  controller: TextEditingController(text: tempDescription),
-                  onChanged: (value) => tempDescription = value,
-                  maxLines: 3,
+                ),
+                TextButton(
+                  onPressed: isSubmitting
+                      ? null
+                      : () async {
+                          final newName = nameController.text.trim();
+                          final newDescription = descriptionController.text.trim();
+                          final oldName = widget.deviceName.trim();
+                          final oldDescription = widget.deviceDescription.trim();
+
+                          if (newName == oldName &&
+                              newDescription == oldDescription) {
+                            Navigator.pop(dialogContext);
+                            return;
+                          }
+
+                          setDialogState(() => isSubmitting = true);
+
+                          final serverAddress =
+                              preferencesService.getServerAddress() ??
+                              'https://api.example.com';
+                          final apiKey = preferencesService.getApiKey() ?? '';
+                          final statusService = StatusService(
+                            baseUrl: serverAddress,
+                            apiKey: apiKey,
+                          );
+                          final result = await statusService.editDevice(
+                            deviceId: widget.deviceId,
+                            name: newName != oldName ? newName : null,
+                            description: newDescription != oldDescription
+                                ? newDescription
+                                : null,
+                          );
+
+                          if (!mounted) {
+                            return;
+                          }
+
+                          if (result.success) {
+                            widget.onDeviceInfoChanged(newName, newDescription);
+                            if (dialogContext.mounted) {
+                              Navigator.pop(dialogContext);
+                            }
+                            messenger.showSnackBar(
+                              SnackBar(content: Text(l10n.deviceInfoUpdateSuccess)),
+                            );
+                            return;
+                          }
+
+                          if (dialogContext.mounted) {
+                            setDialogState(() => isSubmitting = false);
+                          }
+                          messenger.showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                '${l10n.deviceInfoUpdateFailed} ${result.message}',
+                              ),
+                            ),
+                          );
+                        },
+                  child: isSubmitting
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(
+                          MaterialLocalizations.of(dialogContext).okButtonLabel,
+                        ),
                 ),
               ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-            ),
-            TextButton(
-              onPressed: () {
-                widget.onDeviceInfoChanged(tempName, tempDescription);
-                Navigator.pop(context);
-              },
-              child: Text(MaterialLocalizations.of(context).okButtonLabel),
-            ),
-          ],
+            );
+          },
         );
       },
     );

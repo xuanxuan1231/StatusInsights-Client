@@ -94,6 +94,8 @@
     }
   },
   "editDeviceInfo": "Edit Device Info",
+  "deviceInfoUpdateSuccess": "Device info updated.",
+  "deviceInfoUpdateFailed": "Failed to update device info.",
   "aboutTitle": "About",
   "aboutDescription": "StatusInsights version 1.0.0. Built with Flutter.",
   "aboutNoteProject": "This project is for status insights and information display.",

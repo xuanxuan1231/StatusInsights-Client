@@ -282,6 +282,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editDeviceInfo => 'Edit Device Info';
 
   @override
+  String get deviceInfoUpdateSuccess => 'Device info updated.';
+
+  @override
+  String get deviceInfoUpdateFailed => 'Failed to update device info.';
+
+  @override
   String get aboutTitle => 'About';
 
   @override

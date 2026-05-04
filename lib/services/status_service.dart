@@ -77,6 +77,24 @@ class StatusService {
     return _delete('/device/unregister/$deviceId');
   }
 
+  Future<ApiCallResult> editDevice({
+    required String deviceId,
+    String? name,
+    String? description,
+  }) {
+    final nameValue = name?.trim();
+    final descriptionValue = description?.trim();
+    final payload = <String, dynamic>{'device_id': deviceId};
+    if (nameValue != null) {
+      payload['name'] = nameValue;
+    }
+    if (descriptionValue != null) {
+      payload['description'] = descriptionValue;
+    }
+    final body = jsonEncode(payload);
+    return _post('/device/edit', body);
+  }
+
   Future<ApiCallResult> setDeviceStatus({
     required String deviceId,
     required String status,

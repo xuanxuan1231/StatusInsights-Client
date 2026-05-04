@@ -602,6 +602,18 @@ abstract class AppLocalizations {
   /// **'Edit Device Info'**
   String get editDeviceInfo;
 
+  /// No description provided for @deviceInfoUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Device info updated.'**
+  String get deviceInfoUpdateSuccess;
+
+  /// No description provided for @deviceInfoUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update device info.'**
+  String get deviceInfoUpdateFailed;
+
   /// No description provided for @aboutTitle.
   ///
   /// In en, this message translates to:

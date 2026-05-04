@@ -94,6 +94,8 @@
     }
   },
   "editDeviceInfo": "编辑设备信息",
+  "deviceInfoUpdateSuccess": "设备信息已更新。",
+  "deviceInfoUpdateFailed": "设备信息更新失败。",
   "aboutTitle": "关于",
   "aboutDescription": "StatusInsights 版本 1.0.0，基于 Flutter 构建。",
   "aboutNoteProject": "本项目用于状态洞察与信息展示。",
