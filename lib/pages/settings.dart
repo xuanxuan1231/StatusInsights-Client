@@ -570,7 +570,7 @@ class SettingsPage extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     final value = controller.text.trim();
-                    if (value.isEmpty) {
+                    if (value.isEmpty && windowTitleBackendValue == 'custom') {
                       setDialogState(
                         () => errorText = invalidCommandErrorText,
                       );

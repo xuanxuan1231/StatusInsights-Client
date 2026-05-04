@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
         windowTitleBackendCustomLabel:
             l10n.settingsWindowTitleBackendCustomLabel,
         showWindowTitleSettings:
-            defaultTargetPlatform == TargetPlatform.linux,
+            !kIsWeb && defaultTargetPlatform == TargetPlatform.linux,
         currentLocale: widget.currentLocale,
         onLocaleChanged: widget.onLocaleChanged,
         onThemeModeChanged: widget.onThemeModeChanged,
@@ -273,6 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
           deviceType: _getDeviceTypeForApi(),
           windowTitleBackend: _windowTitleBackend,
           windowTitleCommand: _windowTitleCommand,
+          reportIntervalSeconds: _reportIntervalSeconds,
         ),
       ),
       _buildSettingsNavItem(l10n),

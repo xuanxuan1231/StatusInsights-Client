@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/active_window_service.dart';
+import '../services/android_report_service.dart';
 import '../services/status_service.dart';
 
 class ReportsPage extends StatefulWidget {
@@ -17,6 +19,7 @@ class ReportsPage extends StatefulWidget {
     required this.deviceType,
     required this.windowTitleBackend,
     required this.windowTitleCommand,
+    required this.reportIntervalSeconds,
   });
 
   final String serverAddress;
@@ -27,6 +30,7 @@ class ReportsPage extends StatefulWidget {
   final String deviceType;
   final String windowTitleBackend;
   final String windowTitleCommand;
+  final int reportIntervalSeconds;
 
   @override
   State<ReportsPage> createState() => _ReportsPageState();
@@ -49,6 +53,8 @@ class _ReportsPageState extends State<ReportsPage> {
   String _personResult = '';
   String _deviceResult = '';
   String _lastReportedDeviceStatus = '';
+  bool get _useAndroidForegroundService =>
+      defaultTargetPlatform == TargetPlatform.android;
 
   @override
   void initState() {
@@ -61,10 +67,7 @@ class _ReportsPageState extends State<ReportsPage> {
       backend: ActiveWindowService.backendFromValue(widget.windowTitleBackend),
       customCommand: widget.windowTitleCommand,
     );
-    _autoReportTimer = Timer.periodic(
-      const Duration(seconds: 20),
-      (_) => _reportDevice(isManual: false),
-    );
+    _startAutoDeviceReporting();
   }
 
   @override
@@ -84,14 +87,71 @@ class _ReportsPageState extends State<ReportsPage> {
         customCommand: widget.windowTitleCommand,
       );
     }
+
+    final androidReportingConfigChanged =
+        oldWidget.serverAddress != widget.serverAddress ||
+        oldWidget.apiKey != widget.apiKey ||
+        oldWidget.deviceId != widget.deviceId ||
+        oldWidget.reportIntervalSeconds != widget.reportIntervalSeconds;
+
+    if (_useAndroidForegroundService && androidReportingConfigChanged) {
+      unawaited(_startAndroidForegroundReporting());
+    } else if (!_useAndroidForegroundService &&
+        oldWidget.reportIntervalSeconds != widget.reportIntervalSeconds) {
+      _startFlutterAutoReportTimer();
+    }
   }
 
   @override
   void dispose() {
-    _autoReportTimer?.cancel();
+    _stopAutoDeviceReporting();
     _personStatusController.dispose();
     _personDescriptionController.dispose();
     super.dispose();
+  }
+
+  void _startAutoDeviceReporting() {
+    if (_useAndroidForegroundService) {
+      unawaited(_startAndroidForegroundReporting());
+      return;
+    }
+    _startFlutterAutoReportTimer();
+  }
+
+  void _stopAutoDeviceReporting() {
+    _autoReportTimer?.cancel();
+    _autoReportTimer = null;
+    if (_useAndroidForegroundService) {
+      unawaited(AndroidReportService.stop());
+    }
+  }
+
+  void _startFlutterAutoReportTimer() {
+    _autoReportTimer?.cancel();
+    final interval = widget.reportIntervalSeconds <= 0
+        ? 20
+        : widget.reportIntervalSeconds;
+    _autoReportTimer = Timer.periodic(
+      Duration(seconds: interval),
+      (_) => _reportDevice(isManual: false),
+    );
+  }
+
+  Future<void> _startAndroidForegroundReporting() async {
+    if (widget.serverAddress.trim().isEmpty || widget.deviceId.trim().isEmpty) {
+      return;
+    }
+    try {
+      await AndroidReportService.start(
+        serverAddress: widget.serverAddress,
+        apiKey: widget.apiKey,
+        deviceId: widget.deviceId,
+        intervalSeconds:
+            widget.reportIntervalSeconds <= 0 ? 20 : widget.reportIntervalSeconds,
+      );
+    } catch (error) {
+      debugPrint('Failed to start Android foreground reporting: $error');
+    }
   }
 
   Future<void> _reportPerson() async {
