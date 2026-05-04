@@ -63,6 +63,8 @@
   "settingsWindowTitleBackendX11Label": "X11 (xprop)",
   "settingsWindowTitleBackendCustomLabel": "Custom Command",
   "settingsValidationInvalidUrl": "Please enter a valid URL.",
+  "settingsValidationInvalidApiKey": "API Key cannot be empty.",
+  "settingsValidationInvalidCommand": "Command cannot be empty.",
   "settingsReportIntervalLabel": "Auto Report Interval",
   "settingsReportIntervalHelper": "How often the app reports status automatically.",
   "settingsReportIntervalValue": "60 s",

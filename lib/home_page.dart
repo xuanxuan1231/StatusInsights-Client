@@ -147,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
         apiKeyInputHint: l10n.settingsApiKeyInputHint,
         windowTitleCommandInputHint: l10n.settingsWindowTitleCommandInputHint,
         invalidUrlErrorText: l10n.settingsValidationInvalidUrl,
+        invalidApiKeyErrorText: l10n.settingsValidationInvalidApiKey,
+        invalidCommandErrorText: l10n.settingsValidationInvalidCommand,
         editReportIntervalTitle: l10n.settingsEditReportIntervalTitle,
         reportIntervalInputHint: l10n.settingsReportIntervalInputHint,
         invalidNumberErrorText: l10n.settingsValidationInvalidNumber,

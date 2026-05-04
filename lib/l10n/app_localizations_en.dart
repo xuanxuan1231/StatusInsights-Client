@@ -199,6 +199,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsValidationInvalidUrl => 'Please enter a valid URL.';
 
   @override
+  String get settingsValidationInvalidApiKey => 'API Key cannot be empty.';
+
+  @override
+  String get settingsValidationInvalidCommand => 'Command cannot be empty.';
+
+  @override
   String get settingsReportIntervalLabel => 'Auto Report Interval';
 
   @override

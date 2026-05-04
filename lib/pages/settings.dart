@@ -36,6 +36,8 @@ class SettingsPage extends StatelessWidget {
     required this.apiKeyInputHint,
     required this.windowTitleCommandInputHint,
     required this.invalidUrlErrorText,
+    required this.invalidApiKeyErrorText,
+    required this.invalidCommandErrorText,
     required this.editReportIntervalTitle,
     required this.reportIntervalInputHint,
     required this.invalidNumberErrorText,
@@ -94,6 +96,8 @@ class SettingsPage extends StatelessWidget {
   final String apiKeyInputHint;
   final String windowTitleCommandInputHint;
   final String invalidUrlErrorText;
+  final String invalidApiKeyErrorText;
+  final String invalidCommandErrorText;
   final String editReportIntervalTitle;
   final String reportIntervalInputHint;
   final String invalidNumberErrorText;
@@ -372,29 +376,48 @@ class SettingsPage extends StatelessWidget {
 
   Future<void> _showApiKeyDialog(BuildContext context) async {
     final controller = TextEditingController(text: apiKeyValue);
+    String? errorText;
     final String? result = await showDialog<String>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(editApiKeyTitle),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(hintText: apiKeyInputHint),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(controller.text.trim()),
-              child: Text(MaterialLocalizations.of(context).okButtonLabel),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(editApiKeyTitle),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  hintText: apiKeyInputHint,
+                  errorText: errorText,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    MaterialLocalizations.of(context).cancelButtonLabel,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final value = controller.text.trim();
+                    if (value.isEmpty) {
+                      setDialogState(
+                        () => errorText = invalidApiKeyErrorText,
+                      );
+                      return;
+                    }
+                    Navigator.of(context).pop(value);
+                  },
+                  child: Text(MaterialLocalizations.of(context).okButtonLabel),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -521,26 +544,45 @@ class SettingsPage extends StatelessWidget {
 
   Future<void> _showWindowTitleCommandDialog(BuildContext context) async {
     final controller = TextEditingController(text: windowTitleCommandValue);
+    String? errorText;
     final String? result = await showDialog<String>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(editWindowTitleCommandTitle),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            decoration: InputDecoration(hintText: windowTitleCommandInputHint),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(controller.text.trim()),
-              child: Text(MaterialLocalizations.of(context).okButtonLabel),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(editWindowTitleCommandTitle),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: windowTitleCommandInputHint,
+                  errorText: errorText,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    MaterialLocalizations.of(context).cancelButtonLabel,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final value = controller.text.trim();
+                    if (value.isEmpty) {
+                      setDialogState(
+                        () => errorText = invalidCommandErrorText,
+                      );
+                      return;
+                    }
+                    Navigator.of(context).pop(value);
+                  },
+                  child: Text(MaterialLocalizations.of(context).okButtonLabel),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -750,6 +792,8 @@ class _SettingsInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final maxValueWidth = screenWidth * 0.38;
 
     final row = Padding(
       padding: const EdgeInsets.all(16),
@@ -772,21 +816,28 @@ class _SettingsInfoRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                value,
-                textAlign: TextAlign.end,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxValueWidth),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                 ),
-              ),
-              if (onTap != null) ...[
-                const SizedBox(width: 4),
-                const Icon(Icons.chevron_right),
+                if (onTap != null) ...[
+                  const SizedBox(width: 4),
+                  const Icon(Icons.chevron_right),
+                ],
               ],
-            ],
+            ),
           ),
         ],
       ),

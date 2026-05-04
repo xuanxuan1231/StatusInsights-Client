@@ -446,6 +446,18 @@ abstract class AppLocalizations {
   /// **'Please enter a valid URL.'**
   String get settingsValidationInvalidUrl;
 
+  /// No description provided for @settingsValidationInvalidApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'API Key cannot be empty.'**
+  String get settingsValidationInvalidApiKey;
+
+  /// No description provided for @settingsValidationInvalidCommand.
+  ///
+  /// In en, this message translates to:
+  /// **'Command cannot be empty.'**
+  String get settingsValidationInvalidCommand;
+
   /// No description provided for @settingsReportIntervalLabel.
   ///
   /// In en, this message translates to:

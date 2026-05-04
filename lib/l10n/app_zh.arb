@@ -63,6 +63,8 @@
   "settingsWindowTitleBackendX11Label": "X11 (xprop)",
   "settingsWindowTitleBackendCustomLabel": "自定义命令",
   "settingsValidationInvalidUrl": "请输入有效的 URL。",
+  "settingsValidationInvalidApiKey": "API Key 不能为空。",
+  "settingsValidationInvalidCommand": "命令不能为空。",
   "settingsReportIntervalLabel": "自动上报间隔",
   "settingsReportIntervalHelper": "应用自动上报状态的时间间隔。",
   "settingsReportIntervalValue": "60 秒",

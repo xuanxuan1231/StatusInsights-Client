@@ -186,6 +186,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsValidationInvalidUrl => '请输入有效的 URL。';
 
   @override
+  String get settingsValidationInvalidApiKey => 'API Key 不能为空。';
+
+  @override
+  String get settingsValidationInvalidCommand => '命令不能为空。';
+
+  @override
   String get settingsReportIntervalLabel => '自动上报间隔';
 
   @override
