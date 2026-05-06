@@ -105,7 +105,8 @@ jobs:
             ninja-build \
             libblkid-dev \
             liblzma-dev \
-            libssl-dev
+            libssl-dev \
+            libayatana-appindicator3-dev
       
       - name: Get dependencies
         run: flutter pub get
