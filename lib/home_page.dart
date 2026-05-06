@@ -39,6 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static const String _defaultApiKey = '';
   static const String _defaultWindowTitleBackend = 'auto';
   static const String _defaultWindowTitleCommand = '';
+  static const bool _defaultCloseToTray = true;
+  static const bool _defaultSilentStartup = false;
 
   int _selectedIndex = 0;
   String _serverAddress = _defaultServerAddress;
@@ -49,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _deviceName = _defaultDeviceName;
   String _deviceDescription = _defaultDeviceDescription;
   String _deviceId = '';
+  bool _closeToTray = _defaultCloseToTray;
+  bool _silentStartup = _defaultSilentStartup;
 
   final GlobalKey<_OverviewPageState> _overviewPageKey =
       GlobalKey<_OverviewPageState>();
@@ -121,6 +125,12 @@ class _MyHomePageState extends State<MyHomePage> {
         themeModeLabel: l10n.settingsThemeModeLabel,
         themeModeHelper: l10n.settingsThemeModeHelper,
         themeModeValue: widget.currentThemeModeValue,
+        closeToTrayLabel: l10n.settingsCloseToTrayLabel,
+        closeToTrayHelper: l10n.settingsCloseToTrayHelper,
+        closeToTrayValue: _closeToTray,
+        silentStartupLabel: l10n.settingsSilentStartupLabel,
+        silentStartupHelper: l10n.settingsSilentStartupHelper,
+        silentStartupValue: _silentStartup,
         serviceSectionTitle: l10n.settingsServiceSection,
         serverAddressLabel: l10n.settingsServerAddressLabel,
         serverAddressHelper: l10n.settingsServerAddressHelper,
@@ -165,11 +175,17 @@ class _MyHomePageState extends State<MyHomePage> {
         windowTitleBackendX11Label: l10n.settingsWindowTitleBackendX11Label,
         windowTitleBackendCustomLabel:
             l10n.settingsWindowTitleBackendCustomLabel,
+        showTraySettings: !kIsWeb &&
+            (defaultTargetPlatform == TargetPlatform.windows ||
+                defaultTargetPlatform == TargetPlatform.linux ||
+                defaultTargetPlatform == TargetPlatform.macOS),
         showWindowTitleSettings:
             !kIsWeb && defaultTargetPlatform == TargetPlatform.linux,
         currentLocale: widget.currentLocale,
         onLocaleChanged: widget.onLocaleChanged,
         onThemeModeChanged: widget.onThemeModeChanged,
+        onCloseToTrayChanged: _setCloseToTray,
+        onSilentStartupChanged: _setSilentStartup,
         onServerAddressChanged: _setServerAddress,
         onApiKeyChanged: _setApiKey,
         onWindowTitleBackendChanged: _setWindowTitleBackend,
@@ -187,6 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final savedDescription = preferencesService.getDeviceDescription();
     final savedWindowTitleBackend = preferencesService.getWindowTitleBackend();
     final savedWindowTitleCommand = preferencesService.getWindowTitleCommand();
+    final savedCloseToTray = preferencesService.getCloseToTray();
+    final savedSilentStartup = preferencesService.getSilentStartup();
     var savedDeviceId = preferencesService.getDeviceId();
     if (savedDeviceId == null || savedDeviceId.isEmpty) {
       savedDeviceId = _generateDeviceId();
@@ -204,6 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _deviceName = savedName ?? _defaultDeviceName;
       _deviceDescription = savedDescription ?? _defaultDeviceDescription;
       _deviceId = savedDeviceId!;
+      _closeToTray = savedCloseToTray ?? _defaultCloseToTray;
+      _silentStartup = savedSilentStartup ?? _defaultSilentStartup;
     });
   }
 
@@ -232,6 +252,16 @@ class _MyHomePageState extends State<MyHomePage> {
   void _setReportIntervalSeconds(int value) {
     setState(() => _reportIntervalSeconds = value);
     preferencesService.setReportInterval(value);
+  }
+
+  void _setCloseToTray(bool value) {
+    setState(() => _closeToTray = value);
+    preferencesService.setCloseToTray(value);
+  }
+
+  void _setSilentStartup(bool value) {
+    setState(() => _silentStartup = value);
+    preferencesService.setSilentStartup(value);
   }
 
   void _setDeviceName(String value) {

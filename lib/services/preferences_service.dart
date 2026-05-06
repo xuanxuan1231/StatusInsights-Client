@@ -11,6 +11,8 @@ class PreferencesService {
   static const String _keyWindowTitleCommand = 'window_title_command';
   static const String _keyLanguageCode = 'language_code';
   static const String _keyThemeMode = 'theme_mode';
+  static const String _keyCloseToTray = 'close_to_tray';
+  static const String _keySilentStartup = 'silent_startup';
 
   late final SharedPreferences _prefs;
 
@@ -108,5 +110,23 @@ class PreferencesService {
 
   String? getThemeMode() {
     return _prefs.getString(_keyThemeMode);
+  }
+
+  // Close To Tray
+  Future<bool> setCloseToTray(bool value) async {
+    return _prefs.setBool(_keyCloseToTray, value);
+  }
+
+  bool? getCloseToTray() {
+    return _prefs.getBool(_keyCloseToTray);
+  }
+
+  // Silent Startup
+  Future<bool> setSilentStartup(bool value) async {
+    return _prefs.setBool(_keySilentStartup, value);
+  }
+
+  bool? getSilentStartup() {
+    return _prefs.getBool(_keySilentStartup);
   }
 }

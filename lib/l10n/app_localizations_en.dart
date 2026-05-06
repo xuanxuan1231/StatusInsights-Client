@@ -120,6 +120,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeModeDarkLabel => 'Dark';
 
   @override
+  String get settingsCloseToTrayLabel => 'Close To Tray';
+
+  @override
+  String get settingsCloseToTrayHelper =>
+      'When clicking window close, hide to tray instead of exiting.';
+
+  @override
+  String get settingsSilentStartupLabel => 'Silent Startup';
+
+  @override
+  String get settingsSilentStartupHelper =>
+      'Start with the main window hidden and only show the tray icon.';
+
+  @override
   String get settingsServiceSection => 'Service';
 
   @override

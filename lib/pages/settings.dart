@@ -10,6 +10,12 @@ class SettingsPage extends StatelessWidget {
     required this.themeModeLabel,
     required this.themeModeHelper,
     required this.themeModeValue,
+    required this.closeToTrayLabel,
+    required this.closeToTrayHelper,
+    required this.closeToTrayValue,
+    required this.silentStartupLabel,
+    required this.silentStartupHelper,
+    required this.silentStartupValue,
     required this.serviceSectionTitle,
     required this.serverAddressLabel,
     required this.serverAddressHelper,
@@ -52,10 +58,13 @@ class SettingsPage extends StatelessWidget {
     required this.windowTitleBackendSwayLabel,
     required this.windowTitleBackendX11Label,
     required this.windowTitleBackendCustomLabel,
+    required this.showTraySettings,
     required this.showWindowTitleSettings,
     required this.currentLocale,
     required this.onLocaleChanged,
     required this.onThemeModeChanged,
+    required this.onCloseToTrayChanged,
+    required this.onSilentStartupChanged,
     required this.onServerAddressChanged,
     required this.onApiKeyChanged,
     required this.onWindowTitleBackendChanged,
@@ -70,6 +79,12 @@ class SettingsPage extends StatelessWidget {
   final String themeModeLabel;
   final String themeModeHelper;
   final String themeModeValue;
+  final String closeToTrayLabel;
+  final String closeToTrayHelper;
+  final bool closeToTrayValue;
+  final String silentStartupLabel;
+  final String silentStartupHelper;
+  final bool silentStartupValue;
   final String serviceSectionTitle;
   final String serverAddressLabel;
   final String serverAddressHelper;
@@ -112,10 +127,13 @@ class SettingsPage extends StatelessWidget {
   final String windowTitleBackendSwayLabel;
   final String windowTitleBackendX11Label;
   final String windowTitleBackendCustomLabel;
+  final bool showTraySettings;
   final bool showWindowTitleSettings;
   final Locale currentLocale;
   final ValueChanged<Locale> onLocaleChanged;
   final ValueChanged<String> onThemeModeChanged;
+  final ValueChanged<bool> onCloseToTrayChanged;
+  final ValueChanged<bool> onSilentStartupChanged;
   final ValueChanged<String> onServerAddressChanged;
   final ValueChanged<String> onApiKeyChanged;
   final ValueChanged<String> onWindowTitleBackendChanged;
@@ -671,6 +689,22 @@ class SettingsPage extends StatelessWidget {
                   value: _themeModeLabel(themeModeValue),
                   onTap: () => _showThemeModeDialog(context),
                 ),
+                if (showTraySettings) ...[
+                  const Divider(height: 1),
+                  _SettingsSwitchRow(
+                    label: closeToTrayLabel,
+                    helper: closeToTrayHelper,
+                    value: closeToTrayValue,
+                    onChanged: onCloseToTrayChanged,
+                  ),
+                  const Divider(height: 1),
+                  _SettingsSwitchRow(
+                    label: silentStartupLabel,
+                    helper: silentStartupHelper,
+                    value: silentStartupValue,
+                    onChanged: onSilentStartupChanged,
+                  ),
+                ],
               ],
             ),
           ),
@@ -772,6 +806,54 @@ class SettingsPage extends StatelessWidget {
       default:
         return themeModeSystemLabel;
     }
+  }
+}
+
+class _SettingsSwitchRow extends StatelessWidget {
+  const _SettingsSwitchRow({
+    required this.label,
+    required this.helper,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String label;
+  final String helper;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: textTheme.titleMedium),
+                const SizedBox(height: 4),
+                Text(
+                  helper,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+          ),
+        ],
+      ),
+    );
   }
 }
 

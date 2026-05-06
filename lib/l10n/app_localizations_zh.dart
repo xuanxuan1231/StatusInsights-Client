@@ -113,6 +113,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsThemeModeDarkLabel => '深色';
 
   @override
+  String get settingsCloseToTrayLabel => '关闭到托盘';
+
+  @override
+  String get settingsCloseToTrayHelper => '点击窗口关闭按钮时隐藏到托盘，而不是退出应用。';
+
+  @override
+  String get settingsSilentStartupLabel => '静默启动';
+
+  @override
+  String get settingsSilentStartupHelper => '应用启动后先隐藏窗口，仅显示托盘图标。';
+
+  @override
   String get settingsServiceSection => '服务';
 
   @override

@@ -302,6 +302,30 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settingsThemeModeDarkLabel;
 
+  /// No description provided for @settingsCloseToTrayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Close To Tray'**
+  String get settingsCloseToTrayLabel;
+
+  /// No description provided for @settingsCloseToTrayHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'When clicking window close, hide to tray instead of exiting.'**
+  String get settingsCloseToTrayHelper;
+
+  /// No description provided for @settingsSilentStartupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent Startup'**
+  String get settingsSilentStartupLabel;
+
+  /// No description provided for @settingsSilentStartupHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with the main window hidden and only show the tray icon.'**
+  String get settingsSilentStartupHelper;
+
   /// No description provided for @settingsServiceSection.
   ///
   /// In en, this message translates to:
