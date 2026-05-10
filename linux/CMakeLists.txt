@@ -1,6 +1,7 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.13)
 project(runner LANGUAGES CXX)
+option(STATUSINSIGHTS_DEB_PACKAGE "Enable Debian package install layout and CPack config" OFF)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
@@ -79,7 +80,9 @@ include(flutter/generated_plugins.cmake)
 # By default, "installing" just makes a relocatable bundle in the build
 # directory.
 set(BUILD_BUNDLE_DIR "${PROJECT_BINARY_DIR}/bundle")
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+if(STATUSINSIGHTS_DEB_PACKAGE)
+  set(CMAKE_INSTALL_PREFIX "/opt/statusinsights" CACHE PATH "..." FORCE)
+elseif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "${BUILD_BUNDLE_DIR}" CACHE PATH "..." FORCE)
 endif()
 
@@ -125,4 +128,57 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
+endif()
+
+# Install Linux desktop integration files for Debian packages.
+if(STATUSINSIGHTS_DEB_PACKAGE)
+  install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/statusinsights-launcher.sh"
+    DESTINATION "/usr/bin"
+    RENAME "statusinsights"
+    COMPONENT Runtime)
+
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/packaging/statusinsights.desktop"
+    DESTINATION "/usr/share/applications"
+    COMPONENT Runtime)
+
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/packaging/statusinsights.png"
+    DESTINATION "/usr/share/icons/hicolor/256x256/apps"
+    COMPONENT Runtime)
+endif()
+
+# CPack configuration for creating .deb packages.
+if(STATUSINSIGHTS_DEB_PACKAGE)
+  set(CPACK_GENERATOR "DEB")
+  set(CPACK_PACKAGE_NAME "statusinsights")
+  set(CPACK_PACKAGE_VENDOR "HelloSWX")
+  set(CPACK_PACKAGE_CONTACT "maintainer@example.com")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "StatusInsights desktop application")
+  set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/HelloSWX/statusinsights")
+  set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
+  set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+  set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+  set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtk-3-0, libstdc++6, libc6")
+
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "arm64")
+  endif()
+
+  if(DEFINED FLUTTER_VERSION_MAJOR AND DEFINED FLUTTER_VERSION_MINOR AND DEFINED FLUTTER_VERSION_PATCH)
+    set(CPACK_PACKAGE_VERSION_MAJOR "${FLUTTER_VERSION_MAJOR}")
+    set(CPACK_PACKAGE_VERSION_MINOR "${FLUTTER_VERSION_MINOR}")
+    set(CPACK_PACKAGE_VERSION_PATCH "${FLUTTER_VERSION_PATCH}")
+  else()
+    set(CPACK_PACKAGE_VERSION "1.0.0")
+  endif()
+
+  if(DEFINED FLUTTER_VERSION_BUILD AND NOT FLUTTER_VERSION_BUILD STREQUAL "")
+    set(CPACK_DEBIAN_PACKAGE_RELEASE "${FLUTTER_VERSION_BUILD}")
+  else()
+    set(CPACK_DEBIAN_PACKAGE_RELEASE "1")
+  endif()
+
+  include(CPack)
 endif()

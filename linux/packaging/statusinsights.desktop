@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=StatusInsights
+Comment=Status insights desktop app
+Exec=statusinsights
+Icon=statusinsights
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=true
